@@ -19,7 +19,7 @@ permissions:
 jobs:
   analyze:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 15
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -52,7 +52,10 @@ jobs:
         uses: bluefireteam/melos-action@v3
 
       - name: run melos bootstrap
-        run: melos bootstrap  --sdk-path=${{ runner.tool_cache }}/flutter
+        run: melos bootstrap --sdk-path=${{ runner.tool_cache }}/flutter
+
+      - name: pub get
+        run: melos run pub-get --sdk-path=${{ runner.tool_cache }}/flutter
 
       - name: Install matcher
         run: echo "::add-matcher::.github/analyzer-problem-matcher.json"
