@@ -41,6 +41,9 @@ jobs:
         with:
           flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
           channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
+          cache: true
+          cache-key: flutter
+          cache-path: ${{ runner.tool_cache }}/flutter
 
       - name: Run flutter version
         run: flutter --version
@@ -49,7 +52,7 @@ jobs:
         uses: bluefireteam/melos-action@v3
 
       - name: run melos bootstrap
-        run: melos bootstrap
+        run: melos bootstrap  --sdk-path=${{ runner.tool_cache }}/flutter
 
       - name: Install matcher
         run: echo "::add-matcher::.github/analyzer-problem-matcher.json"
