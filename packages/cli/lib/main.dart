@@ -1,11 +1,10 @@
-import 'package:cli/poke_api/poke_api_client.dart';
+import 'service/ability_service.dart';
 
 /// A Calculator.
 class Calculator {
   Future<void> run() async {
-    final client = PokeApiClient();
-
-    final pokemonJaName = await client.fetchPokemonJapaneseName(1000);
-    print('pokemonJaName: $pokemonJaName');
+    // await PokemonService().fetchAndSavePokemonData(1000);
+    // await MoveService().fetchAndSaveMoveData(100);
+    await AbilityService().fetchAndSaveAbilityData(100);
   }
 }

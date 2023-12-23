@@ -8,8 +8,8 @@
       "type": "dart"
     },
     {
-      "name": "back_end",
-      "cwd": "packages/back_end",
+      "name": "cli",
+      "program": "packages/cli/bin/execute.dart",
       "request": "launch",
       "type": "dart"
     }
