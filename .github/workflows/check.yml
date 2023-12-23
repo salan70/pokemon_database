@@ -32,6 +32,12 @@ jobs:
         shell: bash
         run: |
           touch .env
+      
+      # brew コマンドで fvm をインストールする。
+      - name: install fvm
+        run: |
+          brew tap leoafarias/fvm
+          brew install fvm
 
       # .fvm/fvm_config.json で指定された Flutter をインストールする。
       - name: setup flutter
