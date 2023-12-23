@@ -33,21 +33,20 @@ jobs:
         run: |
           touch .env
       
-      # brew コマンドで fvm をインストールする。
-      - name: install fvm
-        run: |
-          brew tap leoafarias/fvm
-          brew install fvm
-
-      # .fvm/fvm_config.json で指定された Flutter をインストールする。
-      - name: setup flutter
-        run: fvm install
+      # .fvm/fvm_config.json から flutter のバージョンを取得する。
+      # 参考: https://github.com/kuhnroyal/flutter-fvm-config-action#basic-usage
+      - uses: kuhnroyal/flutter-fvm-config-action@v2
+        id: fvm-config-action
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ steps.fvm-config-action.outputs.FLUTTER_VERSION }}
+          channel: ${{ steps.fvm-config-action.outputs.FLUTTER_CHANNEL }}
 
       - name: Run flutter version
-        run: fvm flutter --version
+        run: flutter --version
 
       - name: Run flutter pub get
-        run: fvm flutter pub get
+        run: flutter pub get
 
       - name: Install matcher
         run: echo "::add-matcher::.github/analyzer-problem-matcher.json"
@@ -55,7 +54,7 @@ jobs:
       - name: Run flutter analyze
         shell: bash
         run: |
-          fvm flutter analyze | tee ./flutter_analyze_report.txt
+          flutter analyze | tee ./flutter_analyze_report.txt
 
       - name: Remove matcher
         if: always()
