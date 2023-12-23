@@ -1,4 +1,4 @@
-name: back_end
+name: cli
 version: 0.0.1
 publish_to: "none"
 
@@ -6,8 +6,11 @@ environment:
   sdk: ^3.2.0
 
 dependencies:
+  http: any
   model:
     path: ../model/
+
+  
 
 dev_dependencies:
   flutter_test:
