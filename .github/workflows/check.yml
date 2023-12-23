@@ -50,6 +50,10 @@ jobs:
 
       - name: Setup Melos
         uses: bluefireteam/melos-action@v1
+        # SDK path が見つからないエラーが発生するため、
+        #  melos bootstrap を実行しないようにする。
+        with:
+          run-bootstrap: false
 
       - name: run melos bootstrap
         run: melos bootstrap --sdk-path=${{ runner.tool_cache }}/flutter
