@@ -1,7 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'ability_scheme.freezed.dart';
-part 'ability_scheme.g.dart';
 
 /// 「とくせい」のスキーマ。
 @freezed
@@ -16,7 +15,4 @@ class AbilityScheme with _$AbilityScheme {
     /// 説明。
     required String description,
   }) = _AbilityScheme;
-
-  factory AbilityScheme.fromJson(Map<String, dynamic> json) =>
-      _$AbilitySchemeFromJson(json);
 }

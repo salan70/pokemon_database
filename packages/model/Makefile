@@ -1,6 +1,5 @@
 .PHONY: setup
 setup:
-	fvm dart clean
 	fvm dart pub get
 
 .PHONY: generate

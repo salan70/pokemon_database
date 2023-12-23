@@ -14,10 +14,6 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-MoveScheme _$MoveSchemeFromJson(Map<String, dynamic> json) {
-  return _MoveScheme.fromJson(json);
-}
-
 /// @nodoc
 mixin _$MoveScheme {
   /// ID.
@@ -33,7 +29,7 @@ mixin _$MoveScheme {
   String get description => throw _privateConstructorUsedError;
 
   /// カテゴリ ID.
-  int get categoryId => throw _privateConstructorUsedError;
+  MoveCategory get category => throw _privateConstructorUsedError;
 
   /// 威力。
   int? get power => throw _privateConstructorUsedError;
@@ -44,7 +40,6 @@ mixin _$MoveScheme {
   /// PP.
   int get pp => throw _privateConstructorUsedError;
 
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $MoveSchemeCopyWith<MoveScheme> get copyWith =>
       throw _privateConstructorUsedError;
@@ -61,7 +56,7 @@ abstract class $MoveSchemeCopyWith<$Res> {
       String name,
       PokeType type,
       String description,
-      int categoryId,
+      MoveCategory category,
       int? power,
       double? accuracy,
       int pp});
@@ -84,7 +79,7 @@ class _$MoveSchemeCopyWithImpl<$Res, $Val extends MoveScheme>
     Object? name = null,
     Object? type = null,
     Object? description = null,
-    Object? categoryId = null,
+    Object? category = null,
     Object? power = freezed,
     Object? accuracy = freezed,
     Object? pp = null,
@@ -106,10 +101,10 @@ class _$MoveSchemeCopyWithImpl<$Res, $Val extends MoveScheme>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      categoryId: null == categoryId
-          ? _value.categoryId
-          : categoryId // ignore: cast_nullable_to_non_nullable
-              as int,
+      category: null == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as MoveCategory,
       power: freezed == power
           ? _value.power
           : power // ignore: cast_nullable_to_non_nullable
@@ -139,7 +134,7 @@ abstract class _$$MoveSchemeImplCopyWith<$Res>
       String name,
       PokeType type,
       String description,
-      int categoryId,
+      MoveCategory category,
       int? power,
       double? accuracy,
       int pp});
@@ -160,7 +155,7 @@ class __$$MoveSchemeImplCopyWithImpl<$Res>
     Object? name = null,
     Object? type = null,
     Object? description = null,
-    Object? categoryId = null,
+    Object? category = null,
     Object? power = freezed,
     Object? accuracy = freezed,
     Object? pp = null,
@@ -182,10 +177,10 @@ class __$$MoveSchemeImplCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      categoryId: null == categoryId
-          ? _value.categoryId
-          : categoryId // ignore: cast_nullable_to_non_nullable
-              as int,
+      category: null == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as MoveCategory,
       power: freezed == power
           ? _value.power
           : power // ignore: cast_nullable_to_non_nullable
@@ -203,20 +198,17 @@ class __$$MoveSchemeImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
 class _$MoveSchemeImpl implements _MoveScheme {
   const _$MoveSchemeImpl(
       {required this.id,
       required this.name,
       required this.type,
       required this.description,
-      required this.categoryId,
+      required this.category,
       required this.power,
       required this.accuracy,
       required this.pp});
-
-  factory _$MoveSchemeImpl.fromJson(Map<String, dynamic> json) =>
-      _$$MoveSchemeImplFromJson(json);
 
   /// ID.
   @override
@@ -236,7 +228,7 @@ class _$MoveSchemeImpl implements _MoveScheme {
 
   /// カテゴリ ID.
   @override
-  final int categoryId;
+  final MoveCategory category;
 
   /// 威力。
   @override
@@ -252,7 +244,7 @@ class _$MoveSchemeImpl implements _MoveScheme {
 
   @override
   String toString() {
-    return 'MoveScheme(id: $id, name: $name, type: $type, description: $description, categoryId: $categoryId, power: $power, accuracy: $accuracy, pp: $pp)';
+    return 'MoveScheme(id: $id, name: $name, type: $type, description: $description, category: $category, power: $power, accuracy: $accuracy, pp: $pp)';
   }
 
   @override
@@ -265,31 +257,23 @@ class _$MoveSchemeImpl implements _MoveScheme {
             (identical(other.type, type) || other.type == type) &&
             (identical(other.description, description) ||
                 other.description == description) &&
-            (identical(other.categoryId, categoryId) ||
-                other.categoryId == categoryId) &&
+            (identical(other.category, category) ||
+                other.category == category) &&
             (identical(other.power, power) || other.power == power) &&
             (identical(other.accuracy, accuracy) ||
                 other.accuracy == accuracy) &&
             (identical(other.pp, pp) || other.pp == pp));
   }
 
-  @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, type, description,
-      categoryId, power, accuracy, pp);
+  int get hashCode => Object.hash(
+      runtimeType, id, name, type, description, category, power, accuracy, pp);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$MoveSchemeImplCopyWith<_$MoveSchemeImpl> get copyWith =>
       __$$MoveSchemeImplCopyWithImpl<_$MoveSchemeImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$MoveSchemeImplToJson(
-      this,
-    );
-  }
 }
 
 abstract class _MoveScheme implements MoveScheme {
@@ -298,13 +282,10 @@ abstract class _MoveScheme implements MoveScheme {
       required final String name,
       required final PokeType type,
       required final String description,
-      required final int categoryId,
+      required final MoveCategory category,
       required final int? power,
       required final double? accuracy,
       required final int pp}) = _$MoveSchemeImpl;
-
-  factory _MoveScheme.fromJson(Map<String, dynamic> json) =
-      _$MoveSchemeImpl.fromJson;
 
   @override
 
@@ -325,7 +306,7 @@ abstract class _MoveScheme implements MoveScheme {
   @override
 
   /// カテゴリ ID.
-  int get categoryId;
+  MoveCategory get category;
   @override
 
   /// 威力。

@@ -1,9 +1,9 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../enum/move_category.dart';
 import '../enum/poke_type.dart';
 
 part 'move_scheme.freezed.dart';
-part 'move_scheme.g.dart';
 
 /// 「わざ」のスキーマ。
 @freezed
@@ -22,7 +22,7 @@ class MoveScheme with _$MoveScheme {
     required String description,
 
     /// カテゴリ ID.
-    required int categoryId,
+    required MoveCategory category,
 
     /// 威力。
     required int? power,
@@ -30,10 +30,7 @@ class MoveScheme with _$MoveScheme {
     /// 命中率。
     required double? accuracy,
 
-    /// PP. 
+    /// PP.
     required int pp,
   }) = _MoveScheme;
-
-  factory MoveScheme.fromJson(Map<String, dynamic> json) =>
-      _$MoveSchemeFromJson(json);
 }

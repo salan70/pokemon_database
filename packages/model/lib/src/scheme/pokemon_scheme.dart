@@ -1,7 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'pokemon_scheme.freezed.dart';
-part 'pokemon_scheme.g.dart';
 
 /// ポケモンのスキーマ。
 @freezed
@@ -16,7 +15,4 @@ class PokemonScheme with _$PokemonScheme {
     /// 画像 URL.
     required String imageUrl,
   }) = _PokemonScheme;
-
-  factory PokemonScheme.fromJson(Map<String, dynamic> json) =>
-      _$PokemonSchemeFromJson(json);
 }

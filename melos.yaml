@@ -12,14 +12,14 @@ command:
 
 scripts:
   clean:
-    exec: flutter clean
+    exec: fvm flutter clean
   pub-get:
-    exec: flutter pub get
+    exec: fvm flutter pub get
   pub-upgrade:
-    exec: flutter pub upgrade
+    exec: fvm flutter pub upgrade
   analyze:
-    exec: flutter analyze
+    exec: fvm flutter analyze
   run-build-runner:
-    exec: flutter pub run build_runner build --delete-conflicting-outputs
+    exec: fvm flutter pub run build_runner build --delete-conflicting-outputs
   test:
-    exec: flutter test
+    exec: fvm flutter test

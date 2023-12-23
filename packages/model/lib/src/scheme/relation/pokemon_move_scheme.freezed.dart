@@ -14,10 +14,6 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-PokemonMoveScheme _$PokemonMoveSchemeFromJson(Map<String, dynamic> json) {
-  return _PokemonMoveScheme.fromJson(json);
-}
-
 /// @nodoc
 mixin _$PokemonMoveScheme {
   /// ポケモンの ID.
@@ -26,7 +22,6 @@ mixin _$PokemonMoveScheme {
   /// 「わざ」の ID.
   int get moveId => throw _privateConstructorUsedError;
 
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $PokemonMoveSchemeCopyWith<PokemonMoveScheme> get copyWith =>
       throw _privateConstructorUsedError;
@@ -109,13 +104,10 @@ class __$$PokemonMoveSchemeImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
 class _$PokemonMoveSchemeImpl implements _PokemonMoveScheme {
   const _$PokemonMoveSchemeImpl(
       {required this.pokemonId, required this.moveId});
-
-  factory _$PokemonMoveSchemeImpl.fromJson(Map<String, dynamic> json) =>
-      _$$PokemonMoveSchemeImplFromJson(json);
 
   /// ポケモンの ID.
   @override
@@ -140,7 +132,6 @@ class _$PokemonMoveSchemeImpl implements _PokemonMoveScheme {
             (identical(other.moveId, moveId) || other.moveId == moveId));
   }
 
-  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, pokemonId, moveId);
 
@@ -150,22 +141,12 @@ class _$PokemonMoveSchemeImpl implements _PokemonMoveScheme {
   _$$PokemonMoveSchemeImplCopyWith<_$PokemonMoveSchemeImpl> get copyWith =>
       __$$PokemonMoveSchemeImplCopyWithImpl<_$PokemonMoveSchemeImpl>(
           this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$PokemonMoveSchemeImplToJson(
-      this,
-    );
-  }
 }
 
 abstract class _PokemonMoveScheme implements PokemonMoveScheme {
   const factory _PokemonMoveScheme(
       {required final int pokemonId,
       required final int moveId}) = _$PokemonMoveSchemeImpl;
-
-  factory _PokemonMoveScheme.fromJson(Map<String, dynamic> json) =
-      _$PokemonMoveSchemeImpl.fromJson;
 
   @override
 
