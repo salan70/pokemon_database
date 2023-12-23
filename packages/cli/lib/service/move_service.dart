@@ -1,3 +1,6 @@
+// ignore_for_file: unused_local_variable
+// TODO(me): todo スキーマ（ model ）を DB に保存したら、上記コメントを削除する。
+
 import 'package:model/model.dart';
 
 import '../poke_api/poke_api_client.dart';
@@ -5,8 +8,18 @@ import '../poke_api/poke_api_client.dart';
 class MoveService {
   final _pokeApiClient = PokeApiClient();
 
+  /// 全ての move のデータを取得し、 DB に保存する。
+  Future<void> fetchAndSaveAllMoveData() async {
+    final moveCount = await _pokeApiClient.fetchMoveCount();
+    for (var i = 1; i <= moveCount; i++) {
+      await _fetchAndSaveMoveData(i);
+      // 制限を避けるため、 0.5 秒待つ。
+      await Future<void>.delayed(const Duration(milliseconds: 500));
+    }
+  }
+
   /// move に関するデータの取得、加工、保存を行う。
-  Future<void> fetchAndSaveMoveData(int moveIndex) async {
+  Future<void> _fetchAndSaveMoveData(int moveIndex) async {
     // * PokeAPI からデータを取得する。
     final pokemonJson = await _pokeApiClient.fetchMove(moveIndex);
 
@@ -39,7 +52,7 @@ class MoveService {
       description: description,
       category: category,
       power: moveJson['power'] as int?,
-      accuracy: moveJson['accuracy'] as double?,
+      accuracy: moveJson['accuracy'] as int?,
       pp: moveJson['pp'] as int,
     );
   }

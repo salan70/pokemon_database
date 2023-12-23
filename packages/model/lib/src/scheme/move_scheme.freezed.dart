@@ -34,8 +34,8 @@ mixin _$MoveScheme {
   /// 威力。
   int? get power => throw _privateConstructorUsedError;
 
-  /// 命中率。
-  double? get accuracy => throw _privateConstructorUsedError;
+  /// 命中率（%）。
+  int? get accuracy => throw _privateConstructorUsedError;
 
   /// PP.
   int get pp => throw _privateConstructorUsedError;
@@ -58,7 +58,7 @@ abstract class $MoveSchemeCopyWith<$Res> {
       String description,
       MoveCategory category,
       int? power,
-      double? accuracy,
+      int? accuracy,
       int pp});
 }
 
@@ -112,7 +112,7 @@ class _$MoveSchemeCopyWithImpl<$Res, $Val extends MoveScheme>
       accuracy: freezed == accuracy
           ? _value.accuracy
           : accuracy // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as int?,
       pp: null == pp
           ? _value.pp
           : pp // ignore: cast_nullable_to_non_nullable
@@ -136,7 +136,7 @@ abstract class _$$MoveSchemeImplCopyWith<$Res>
       String description,
       MoveCategory category,
       int? power,
-      double? accuracy,
+      int? accuracy,
       int pp});
 }
 
@@ -188,7 +188,7 @@ class __$$MoveSchemeImplCopyWithImpl<$Res>
       accuracy: freezed == accuracy
           ? _value.accuracy
           : accuracy // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as int?,
       pp: null == pp
           ? _value.pp
           : pp // ignore: cast_nullable_to_non_nullable
@@ -234,9 +234,9 @@ class _$MoveSchemeImpl implements _MoveScheme {
   @override
   final int? power;
 
-  /// 命中率。
+  /// 命中率（%）。
   @override
-  final double? accuracy;
+  final int? accuracy;
 
   /// PP.
   @override
@@ -284,7 +284,7 @@ abstract class _MoveScheme implements MoveScheme {
       required final String description,
       required final MoveCategory category,
       required final int? power,
-      required final double? accuracy,
+      required final int? accuracy,
       required final int pp}) = _$MoveSchemeImpl;
 
   @override
@@ -313,8 +313,8 @@ abstract class _MoveScheme implements MoveScheme {
   int? get power;
   @override
 
-  /// 命中率。
-  double? get accuracy;
+  /// 命中率（%）。
+  int? get accuracy;
   @override
 
   /// PP.

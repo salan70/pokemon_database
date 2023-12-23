@@ -1,10 +1,12 @@
 import 'service/ability_service.dart';
+import 'service/move_service.dart';
+import 'service/pokemon_service.dart';
 
 /// A Calculator.
 class Calculator {
   Future<void> run() async {
-    // await PokemonService().fetchAndSavePokemonData(1000);
-    // await MoveService().fetchAndSaveMoveData(100);
-    await AbilityService().fetchAndSaveAbilityData(100);
+    await PokemonService().fetchAndSaveAllPokemonData();
+    await MoveService().fetchAndSaveAllMoveData();
+    await AbilityService().fetchAndSaveAllAbilityData();
   }
 }

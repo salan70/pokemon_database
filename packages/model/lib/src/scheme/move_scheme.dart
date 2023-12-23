@@ -27,8 +27,8 @@ class MoveScheme with _$MoveScheme {
     /// 威力。
     required int? power,
 
-    /// 命中率。
-    required double? accuracy,
+    /// 命中率（%）。
+    required int? accuracy,
 
     /// PP.
     required int pp,
