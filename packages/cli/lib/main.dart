@@ -1,6 +1,11 @@
+import 'package:cli/poke_api/poke_api_client.dart';
+
 /// A Calculator.
 class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+  Future<void> run() async {
+    final client = PokeApiClient();
 
+    final pokemonJaName = await client.fetchPokemonJapaneseName(1000);
+    print('pokemonJaName: $pokemonJaName');
+  }
+}

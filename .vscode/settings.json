@@ -1,9 +1,22 @@
 {
   "dart.flutterSdkPath": ".fvm/flutter_sdk",
   "search.exclude": {
-    "**/.fvm": true
+    "**/.fvm": true,
+    "**/*.freezed.dart": true,
+    "**/*.g.dart": true,
+    "**/*.gr.dart": true,
+    "**/*.mocks.dart": true
   },
   "files.watcherExclude": {
     "**/.fvm": true
-  }
+  },
+  // ファイルエクスプローラーの表示から除外するファイル
+  "files.exclude": {
+    "**/*.freezed.dart": true,
+    "**/*.g.dart": true,
+    "**/*.mocks.dart": true
+  },
+  "cSpell.words": [
+    "pokedex"
+  ]
 }
