@@ -45,8 +45,11 @@ jobs:
       - name: Run flutter version
         run: flutter --version
 
-      - name: Run flutter pub get
-        run: flutter pub get
+      - name: Setup Melos
+        uses: bluefireteam/melos-action@v3
+
+      - name: run melos bootstrap
+        run: melos bootstrap
 
       - name: Install matcher
         run: echo "::add-matcher::.github/analyzer-problem-matcher.json"
