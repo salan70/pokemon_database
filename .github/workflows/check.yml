@@ -49,7 +49,7 @@ jobs:
         run: flutter --version
 
       - name: Setup Melos
-        uses: bluefireteam/melos-action@v3
+        uses: bluefireteam/melos-action@v1
 
       - name: run melos bootstrap
         run: melos bootstrap --sdk-path=${{ runner.tool_cache }}/flutter
