@@ -1,0 +1,16 @@
+name: back_end
+version: 0.0.1
+publish_to: "none"
+
+environment:
+  sdk: ^3.2.0
+
+dependencies:
+  model:
+    path: ../model/
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+

@@ -1,0 +1,11 @@
+name: pokemon_database
+
+packages:
+  - packages/**
+
+sdkPath: '.fvm/flutter_sdk'   
+
+command:
+  bootstrap:
+    environment:
+      sdk: ^3.2.0

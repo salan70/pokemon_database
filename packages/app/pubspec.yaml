@@ -1,5 +1,5 @@
-name: pokemon_database
-description: A new Flutter project.
+name: app
+description: "A new Flutter project."
 publish_to: 'none'
 version: 0.1.0
 
@@ -9,9 +9,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  melos: ^3.4.0
 
 dev_dependencies:
+  flutter_test:
+    sdk: flutter
   flutter_lints: ^2.0.0
 
 flutter:

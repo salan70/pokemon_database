@@ -1,0 +1,17 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "app",
+      "cwd": "packages/app",
+      "request": "launch",
+      "type": "dart"
+    },
+    {
+      "name": "back_end",
+      "cwd": "packages/back_end",
+      "request": "launch",
+      "type": "dart"
+    }
+  ]
+}
