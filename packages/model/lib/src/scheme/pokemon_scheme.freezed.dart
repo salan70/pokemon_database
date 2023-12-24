@@ -27,7 +27,9 @@ mixin _$PokemonScheme {
   String get name => throw _privateConstructorUsedError;
 
   /// 画像 URL.
-  String get imageUrl => throw _privateConstructorUsedError;
+  ///
+  /// 画像がない場合は、 null になる。
+  String? get imageUrl => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -41,7 +43,7 @@ abstract class $PokemonSchemeCopyWith<$Res> {
           PokemonScheme value, $Res Function(PokemonScheme) then) =
       _$PokemonSchemeCopyWithImpl<$Res, PokemonScheme>;
   @useResult
-  $Res call({int pokedex, String name, String imageUrl});
+  $Res call({int pokedex, String name, String? imageUrl});
 }
 
 /// @nodoc
@@ -59,7 +61,7 @@ class _$PokemonSchemeCopyWithImpl<$Res, $Val extends PokemonScheme>
   $Res call({
     Object? pokedex = null,
     Object? name = null,
-    Object? imageUrl = null,
+    Object? imageUrl = freezed,
   }) {
     return _then(_value.copyWith(
       pokedex: null == pokedex
@@ -70,10 +72,10 @@ class _$PokemonSchemeCopyWithImpl<$Res, $Val extends PokemonScheme>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      imageUrl: null == imageUrl
+      imageUrl: freezed == imageUrl
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 }
@@ -86,7 +88,7 @@ abstract class _$$PokemonSchemeImplCopyWith<$Res>
       __$$PokemonSchemeImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int pokedex, String name, String imageUrl});
+  $Res call({int pokedex, String name, String? imageUrl});
 }
 
 /// @nodoc
@@ -102,7 +104,7 @@ class __$$PokemonSchemeImplCopyWithImpl<$Res>
   $Res call({
     Object? pokedex = null,
     Object? name = null,
-    Object? imageUrl = null,
+    Object? imageUrl = freezed,
   }) {
     return _then(_$PokemonSchemeImpl(
       pokedex: null == pokedex
@@ -113,10 +115,10 @@ class __$$PokemonSchemeImplCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      imageUrl: null == imageUrl
+      imageUrl: freezed == imageUrl
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -139,8 +141,10 @@ class _$PokemonSchemeImpl implements _PokemonScheme {
   final String name;
 
   /// 画像 URL.
+  ///
+  /// 画像がない場合は、 null になる。
   @override
-  final String imageUrl;
+  final String? imageUrl;
 
   @override
   String toString() {
@@ -180,7 +184,7 @@ abstract class _PokemonScheme implements PokemonScheme {
   const factory _PokemonScheme(
       {required final int pokedex,
       required final String name,
-      required final String imageUrl}) = _$PokemonSchemeImpl;
+      required final String? imageUrl}) = _$PokemonSchemeImpl;
 
   factory _PokemonScheme.fromJson(Map<String, dynamic> json) =
       _$PokemonSchemeImpl.fromJson;
@@ -196,7 +200,9 @@ abstract class _PokemonScheme implements PokemonScheme {
   @override
 
   /// 画像 URL.
-  String get imageUrl;
+  ///
+  /// 画像がない場合は、 null になる。
+  String? get imageUrl;
   @override
   @JsonKey(ignore: true)
   _$$PokemonSchemeImplCopyWith<_$PokemonSchemeImpl> get copyWith =>

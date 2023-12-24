@@ -10,7 +10,7 @@ _$PokemonSchemeImpl _$$PokemonSchemeImplFromJson(Map<String, dynamic> json) =>
     _$PokemonSchemeImpl(
       pokedex: json['pokedex'] as int,
       name: json['name'] as String,
-      imageUrl: json['imageUrl'] as String,
+      imageUrl: json['imageUrl'] as String?,
     );
 
 Map<String, dynamic> _$$PokemonSchemeImplToJson(_$PokemonSchemeImpl instance) =>

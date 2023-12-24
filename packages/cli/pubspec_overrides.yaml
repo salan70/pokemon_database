@@ -1,4 +1,6 @@
-# melos_managed_dependency_overrides: model
+# melos_managed_dependency_overrides: model,assets
 dependency_overrides:
+  assets:
+    path: ../assets
   model:
     path: ../model

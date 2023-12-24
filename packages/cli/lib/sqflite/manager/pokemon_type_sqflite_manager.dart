@@ -21,6 +21,8 @@ class PokemonTypeSqfliteManager {
 
   /// テーブルを作成する。
   Future<void> _createTable() async {
+    // 既にテーブルが存在する場合は削除する。
+    await _db.execute('DROP TABLE IF EXISTS $_tableName');
     await _db.execute('''
       CREATE TABLE $_tableName (
         $columnPokemonId INTEGER,

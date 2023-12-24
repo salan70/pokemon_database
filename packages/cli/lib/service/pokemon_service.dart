@@ -17,16 +17,26 @@ class PokemonService {
     final pokeApiClient = PokeApiClient();
 
     // * PokeAPI からデータを取得し、メンバ変数のリストに追加する。
-    final pokemonCount = await pokeApiClient.fetchPokemonCount();
+    final pokemonUrlList = await pokeApiClient.fetchPokemonUrlList();
+    for (final url in pokemonUrlList) {
+      // url から pokedex を取得する。
+      final index = int.parse(url.split('/')[6]);
 
-    // TODO(me): debug 終わったら、 pokemonCount の数だけ取得するようにする。
-    for (var index = 1; index <= 3; index++) {
+      // 10000 以上は、特殊なポケモンなので除外する。
+      if (index >= 10000) {
+        print('index: $index は特殊なポケモンなので除外します。');
+        continue;
+      }
+
       final pokemonJson = await pokeApiClient.fetchPokemon(index);
       final pokemonJaName = await pokeApiClient.fetchPokemonJapaneseName(index);
       _generateAndAddToList(pokemonJson, pokemonJaName);
 
       // 制限を避けるため、 0.5 秒待つ。
       await Future<void>.delayed(const Duration(milliseconds: 500));
+
+      // 厳密にいうと index は取得件数じゃないことに注意。
+      print('$index / ${pokemonUrlList.length} 匹目のポケモンを取得しました。');
     }
 
     // * DB にデータを保存する。
@@ -67,7 +77,7 @@ class _Generator {
       pokedex: _pokemonJson['id'] as int,
       name: pokemonJaName,
       imageUrl: (_pokemonJson['sprites']
-          as Map<String, dynamic>)['front_default'] as String,
+          as Map<String, dynamic>)['front_default'] as String?,
     );
   }
 

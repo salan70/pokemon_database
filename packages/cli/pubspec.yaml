@@ -6,15 +6,15 @@ environment:
   sdk: ^3.2.0
 
 dependencies:
+  assets:
+    path: ../assets/
   http: any
   model:
     path: ../model/
+
   path: any
   path_provider: any
   sqflite_common_ffi: any
-
-
-  
 
 dev_dependencies:
   flutter_test:

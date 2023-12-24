@@ -14,7 +14,9 @@ class PokemonScheme with _$PokemonScheme {
     required String name,
 
     /// 画像 URL.
-    required String imageUrl,
+    /// 
+    /// 画像がない場合は、 null になる。
+    required String? imageUrl,
   }) = _PokemonScheme;
 
   /// テーブル名。
