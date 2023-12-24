@@ -14,6 +14,10 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+PokemonScheme _$PokemonSchemeFromJson(Map<String, dynamic> json) {
+  return _PokemonScheme.fromJson(json);
+}
+
 /// @nodoc
 mixin _$PokemonScheme {
   /// 図鑑番号。
@@ -25,6 +29,7 @@ mixin _$PokemonScheme {
   /// 画像 URL.
   String get imageUrl => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $PokemonSchemeCopyWith<PokemonScheme> get copyWith =>
       throw _privateConstructorUsedError;
@@ -117,10 +122,13 @@ class __$$PokemonSchemeImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$PokemonSchemeImpl implements _PokemonScheme {
   const _$PokemonSchemeImpl(
       {required this.pokedex, required this.name, required this.imageUrl});
+
+  factory _$PokemonSchemeImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PokemonSchemeImplFromJson(json);
 
   /// 図鑑番号。
   @override
@@ -150,6 +158,7 @@ class _$PokemonSchemeImpl implements _PokemonScheme {
                 other.imageUrl == imageUrl));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, pokedex, name, imageUrl);
 
@@ -158,6 +167,13 @@ class _$PokemonSchemeImpl implements _PokemonScheme {
   @pragma('vm:prefer-inline')
   _$$PokemonSchemeImplCopyWith<_$PokemonSchemeImpl> get copyWith =>
       __$$PokemonSchemeImplCopyWithImpl<_$PokemonSchemeImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$PokemonSchemeImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class _PokemonScheme implements PokemonScheme {
@@ -165,6 +181,9 @@ abstract class _PokemonScheme implements PokemonScheme {
       {required final int pokedex,
       required final String name,
       required final String imageUrl}) = _$PokemonSchemeImpl;
+
+  factory _PokemonScheme.fromJson(Map<String, dynamic> json) =
+      _$PokemonSchemeImpl.fromJson;
 
   @override
 

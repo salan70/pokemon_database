@@ -1,9 +1,10 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../enum/move_category.dart';
-import '../enum/poke_type.dart';
+import '../constant/move_category.dart';
+import '../constant/poke_type.dart';
 
 part 'move_scheme.freezed.dart';
+part 'move_scheme.g.dart';
 
 /// 「わざ」のスキーマ。
 @freezed
@@ -21,7 +22,9 @@ class MoveScheme with _$MoveScheme {
     /// 説明。
     required String description,
 
-    /// カテゴリ ID.
+    /// 技の種類.
+    ///
+    /// 例: ぶつり, とくしゅ, へんか。
     required MoveCategory category,
 
     /// 威力。
@@ -33,4 +36,34 @@ class MoveScheme with _$MoveScheme {
     /// PP.
     required int pp,
   }) = _MoveScheme;
+
+  /// テーブル名。
+  static const tableName = 'move';
+
+  /// カラム名: ID。
+  static const columnId = 'id';
+
+  /// カラム名: 名前。
+  static const columnName = 'name';
+
+  /// カラム名: タイプ。
+  static const columnType = 'type';
+
+  /// カラム名: 説明。
+  static const columnDescription = 'description';
+
+  /// カラム名: カテゴリ。
+  static const columnCategory = 'category';
+
+  /// カラム名: 威力。
+  static const columnPower = 'power';
+
+  /// カラム名: 命中率。
+  static const columnAccuracy = 'accuracy';
+
+  /// カラム名: PP。
+  static const columnPp = 'pp';
+
+  factory MoveScheme.fromJson(Map<String, Object?> json) =>
+      _$MoveSchemeFromJson(json);
 }

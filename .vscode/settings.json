@@ -17,6 +17,7 @@
     "**/*.mocks.dart": true
   },
   "cSpell.words": [
-    "pokedex"
+    "pokedex",
+    "Sqflite"
   ]
 }

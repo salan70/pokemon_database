@@ -9,6 +9,10 @@ dependencies:
   http: any
   model:
     path: ../model/
+  path: any
+  path_provider: any
+  sqflite_common_ffi: any
+
 
   
 
