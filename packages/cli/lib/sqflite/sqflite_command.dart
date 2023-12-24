@@ -16,6 +16,7 @@ import 'manager/pokemon_type_sqflite_manager.dart';
 class SqfliteCommand {
   final _parentPath = Directory.current.parent.path;
   static const assetsDirectory = 'assets';
+  static const dbDirectory = 'db';
 
   /// ポケモンに関連するデータを DB に保存する。
   Future<void> savePokemonData({
@@ -25,7 +26,7 @@ class SqfliteCommand {
     required List<PokemonTypeScheme> pokemonTypeList,
     required List<BaseStatsScheme> baseStatsList,
   }) async {
-    final path = p.join(_parentPath, assetsDirectory, pokemonDb);
+    final path = p.join(_parentPath, assetsDirectory, dbDirectory, pokemonDb);
     final db = await databaseFactoryFfi.openDatabase(path);
 
     await PokemonSqfliteManager(db).savePokemon(pokemonList);
@@ -39,7 +40,7 @@ class SqfliteCommand {
 
   /// 「わざ」に関連するデータを DB に保存する。
   Future<void> saveMoveData(List<MoveScheme> moveList) async {
-    final path = p.join(_parentPath, assetsDirectory, moveDb);
+    final path = p.join(_parentPath, assetsDirectory, dbDirectory, moveDb);
     final db = await databaseFactoryFfi.openDatabase(path);
 
     await MoveSqfliteManager(db).saveMove(moveList);
@@ -49,7 +50,7 @@ class SqfliteCommand {
 
   /// 「とくせい」に関連するデータを DB に保存する。
   Future<void> saveAbilityData(List<AbilityScheme> abilityList) async {
-    final path = p.join(_parentPath, assetsDirectory, abilityDb);
+    final path = p.join(_parentPath, assetsDirectory, dbDirectory, abilityDb);
     final db = await databaseFactoryFfi.openDatabase(path);
 
     await AbilitySqfliteManager(db).saveAbility(abilityList);
