@@ -1,39 +1,35 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# cli パッケージ
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages).
+## 本パッケージについて
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages).
--->
+ポケモンのデータを Poke API から取得し、 DB に保存する処理を格納しています。
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+## 実行方法
 
-## Features
+本パッケージのルートで、以下いずれかのコマンドを叩くと実行されます。
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+```sh
+fvm dart run bin/execute.dart
 
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
-
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
-
-```dart
-const like = 'sample';
+# Makefile で上記コマンドを実行するよう設定しています。
+make execute
 ```
 
-## Additional information
+実行が完了したら、以下に db ファイルが出力されます。  
+`packages/assets/db`
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+## 注意事項
+
+### 実行環境について
+
+実行確認は、以下環境でしか行っていません。  
+また、他環境での実行は考慮していません。
+
+```sh
+# $ fvm dart --version
+Dart SDK version: 3.2.3 (stable) (Tue Dec 5 17:58:33 2023 +0000) on "macos_x64"
+```
+
+### 処理時間について
+
+処理の開始から終了まで 2, 3時間程度かかります。

@@ -14,6 +14,10 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+PokemonAbilityScheme _$PokemonAbilitySchemeFromJson(Map<String, dynamic> json) {
+  return _PokemonAbilityScheme.fromJson(json);
+}
+
 /// @nodoc
 mixin _$PokemonAbilityScheme {
   /// ポケモンの ID.
@@ -22,6 +26,7 @@ mixin _$PokemonAbilityScheme {
   /// 「とくせい」の ID.
   int get abilityId => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $PokemonAbilitySchemeCopyWith<PokemonAbilityScheme> get copyWith =>
       throw _privateConstructorUsedError;
@@ -105,10 +110,13 @@ class __$$PokemonAbilitySchemeImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$PokemonAbilitySchemeImpl implements _PokemonAbilityScheme {
   const _$PokemonAbilitySchemeImpl(
       {required this.pokemonId, required this.abilityId});
+
+  factory _$PokemonAbilitySchemeImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PokemonAbilitySchemeImplFromJson(json);
 
   /// ポケモンの ID.
   @override
@@ -134,6 +142,7 @@ class _$PokemonAbilitySchemeImpl implements _PokemonAbilityScheme {
                 other.abilityId == abilityId));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, pokemonId, abilityId);
 
@@ -144,12 +153,22 @@ class _$PokemonAbilitySchemeImpl implements _PokemonAbilityScheme {
       get copyWith =>
           __$$PokemonAbilitySchemeImplCopyWithImpl<_$PokemonAbilitySchemeImpl>(
               this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$PokemonAbilitySchemeImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class _PokemonAbilityScheme implements PokemonAbilityScheme {
   const factory _PokemonAbilityScheme(
       {required final int pokemonId,
       required final int abilityId}) = _$PokemonAbilitySchemeImpl;
+
+  factory _PokemonAbilityScheme.fromJson(Map<String, dynamic> json) =
+      _$PokemonAbilitySchemeImpl.fromJson;
 
   @override
 

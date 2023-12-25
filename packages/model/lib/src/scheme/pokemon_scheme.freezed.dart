@@ -14,6 +14,10 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+PokemonScheme _$PokemonSchemeFromJson(Map<String, dynamic> json) {
+  return _PokemonScheme.fromJson(json);
+}
+
 /// @nodoc
 mixin _$PokemonScheme {
   /// 図鑑番号。
@@ -23,8 +27,11 @@ mixin _$PokemonScheme {
   String get name => throw _privateConstructorUsedError;
 
   /// 画像 URL.
-  String get imageUrl => throw _privateConstructorUsedError;
+  ///
+  /// 画像がない場合は、 null になる。
+  String? get imageUrl => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $PokemonSchemeCopyWith<PokemonScheme> get copyWith =>
       throw _privateConstructorUsedError;
@@ -36,7 +43,7 @@ abstract class $PokemonSchemeCopyWith<$Res> {
           PokemonScheme value, $Res Function(PokemonScheme) then) =
       _$PokemonSchemeCopyWithImpl<$Res, PokemonScheme>;
   @useResult
-  $Res call({int pokedex, String name, String imageUrl});
+  $Res call({int pokedex, String name, String? imageUrl});
 }
 
 /// @nodoc
@@ -54,7 +61,7 @@ class _$PokemonSchemeCopyWithImpl<$Res, $Val extends PokemonScheme>
   $Res call({
     Object? pokedex = null,
     Object? name = null,
-    Object? imageUrl = null,
+    Object? imageUrl = freezed,
   }) {
     return _then(_value.copyWith(
       pokedex: null == pokedex
@@ -65,10 +72,10 @@ class _$PokemonSchemeCopyWithImpl<$Res, $Val extends PokemonScheme>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      imageUrl: null == imageUrl
+      imageUrl: freezed == imageUrl
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 }
@@ -81,7 +88,7 @@ abstract class _$$PokemonSchemeImplCopyWith<$Res>
       __$$PokemonSchemeImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int pokedex, String name, String imageUrl});
+  $Res call({int pokedex, String name, String? imageUrl});
 }
 
 /// @nodoc
@@ -97,7 +104,7 @@ class __$$PokemonSchemeImplCopyWithImpl<$Res>
   $Res call({
     Object? pokedex = null,
     Object? name = null,
-    Object? imageUrl = null,
+    Object? imageUrl = freezed,
   }) {
     return _then(_$PokemonSchemeImpl(
       pokedex: null == pokedex
@@ -108,19 +115,22 @@ class __$$PokemonSchemeImplCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      imageUrl: null == imageUrl
+      imageUrl: freezed == imageUrl
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$PokemonSchemeImpl implements _PokemonScheme {
   const _$PokemonSchemeImpl(
       {required this.pokedex, required this.name, required this.imageUrl});
+
+  factory _$PokemonSchemeImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PokemonSchemeImplFromJson(json);
 
   /// 図鑑番号。
   @override
@@ -131,8 +141,10 @@ class _$PokemonSchemeImpl implements _PokemonScheme {
   final String name;
 
   /// 画像 URL.
+  ///
+  /// 画像がない場合は、 null になる。
   @override
-  final String imageUrl;
+  final String? imageUrl;
 
   @override
   String toString() {
@@ -150,6 +162,7 @@ class _$PokemonSchemeImpl implements _PokemonScheme {
                 other.imageUrl == imageUrl));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, pokedex, name, imageUrl);
 
@@ -158,13 +171,23 @@ class _$PokemonSchemeImpl implements _PokemonScheme {
   @pragma('vm:prefer-inline')
   _$$PokemonSchemeImplCopyWith<_$PokemonSchemeImpl> get copyWith =>
       __$$PokemonSchemeImplCopyWithImpl<_$PokemonSchemeImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$PokemonSchemeImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class _PokemonScheme implements PokemonScheme {
   const factory _PokemonScheme(
       {required final int pokedex,
       required final String name,
-      required final String imageUrl}) = _$PokemonSchemeImpl;
+      required final String? imageUrl}) = _$PokemonSchemeImpl;
+
+  factory _PokemonScheme.fromJson(Map<String, dynamic> json) =
+      _$PokemonSchemeImpl.fromJson;
 
   @override
 
@@ -177,7 +200,9 @@ abstract class _PokemonScheme implements PokemonScheme {
   @override
 
   /// 画像 URL.
-  String get imageUrl;
+  ///
+  /// 画像がない場合は、 null になる。
+  String? get imageUrl;
   @override
   @JsonKey(ignore: true)
   _$$PokemonSchemeImplCopyWith<_$PokemonSchemeImpl> get copyWith =>

@@ -18,10 +18,14 @@ class PokeApiClient {
     }
   }
 
-  /// ポケモンの数を取得する。
-  Future<int> fetchPokemonCount() async {
-    final json = await _getRequest('$_pokeApiRoute/pokemon');
-    return json['count'] as int;
+  /// 取得するポケモンの URL リストを取得する。
+  Future<List<String>> fetchPokemonUrlList() async {
+    final json = await _getRequest('$_pokeApiRoute/pokemon?limit=2000&offset=0');
+    final results = json['results'] as List<dynamic>;
+    return results.map((e) {
+      final eMap = e as Map<String, dynamic>;
+      return eMap['url'] as String;
+    }).toList();
   }
 
   /// ポケモンを取得する。
@@ -45,10 +49,14 @@ class PokeApiClient {
     }) as Map<String, dynamic>)['name'] as String;
   }
 
-  /// 「わざ」の数を取得する。
-  Future<int> fetchMoveCount() async {
-    final json = await _getRequest('$_pokeApiRoute/move');
-    return json['count'] as int;
+  /// 取得する「わざ」の URL リストを取得する。
+  Future<List<String>> fetchMoveUrlList() async {
+    final json = await _getRequest('$_pokeApiRoute/move?limit=2000&offset=0');
+    final results = json['results'] as List<dynamic>;
+    return results.map((e) {
+      final eMap = e as Map<String, dynamic>;
+      return eMap['url'] as String;
+    }).toList();
   }
 
   /// 「わざ」の詳細情報を取得する。
@@ -56,10 +64,14 @@ class PokeApiClient {
     return _getRequest('$_pokeApiRoute/move/$id');
   }
 
-  /// 「とくせい」の数を取得する。
-  Future<int> fetchAbilityCount() async {
-    final json = await _getRequest('$_pokeApiRoute/ability');
-    return json['count'] as int;
+  /// 取得する「とくせい」の URL リストを取得する。
+  Future<List<String>> fetchAbilityUrlList() async {
+    final json = await _getRequest('$_pokeApiRoute/ability?limit=2000&offset=0');
+    final results = json['results'] as List<dynamic>;
+    return results.map((e) {
+      final eMap = e as Map<String, dynamic>;
+      return eMap['url'] as String;
+    }).toList();
   }
 
   /// 「とくせい」の詳細情報を取得する。

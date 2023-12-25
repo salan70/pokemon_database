@@ -1,68 +1,88 @@
-// ignore_for_file: unused_local_variable
-// TODO(me): todo スキーマ（ model ）を DB に保存したら、上記コメントを削除する。
-
 import 'package:model/model.dart';
 
 import '../poke_api/poke_api_client.dart';
+import '../sqflite/sqflite_command.dart';
 
 class AbilityService {
-  final _pokeApiClient = PokeApiClient();
+  final List<AbilityScheme> _abilityList = [];
 
-  /// 全ての ability のデータを取得し、 DB に保存する。
+  /// 全ての ability のデータを取得し DB に保存する。
   Future<void> fetchAndSaveAllAbilityData() async {
-    final abilityCount = await _pokeApiClient.fetchAbilityCount();
-    for (var i = 1; i <= abilityCount; i++) {
-      await _fetchAndSaveAbilityData(i);
-      // 制限を避けるため、 0.5 秒待つ。
+    final pokeApiClient = PokeApiClient();
+
+    // * PokeAPI からデータを取得し _abilityList に追加する。
+    final abilityUrlList = await pokeApiClient.fetchAbilityUrlList();
+    for (final url in abilityUrlList) {
+      // url から id を取得する。
+      final index = int.parse(url.split('/')[6]);
+
+      // 10000 以上は、特殊なとくせいなので除外する。
+      if (index >= 10000) {
+        print('index: $index は特殊なとくせいなので除外します。');
+        continue;
+      }
+
+      final pokemonJson = await pokeApiClient.fetchAbility(index);
+      final moveScheme = _generateAbilityScheme(pokemonJson);
+      _abilityList.add(moveScheme);
+
+      // 制限を避けるため 0.5 秒待つ。
       await Future<void>.delayed(const Duration(milliseconds: 500));
+
+      // 厳密にいうと index は取得件数じゃないことに注意。 
+      print('$index / ${abilityUrlList.length} 個目のとくせいを取得しました。');
     }
+
+    // * DB に保存する。
+    await SqfliteCommand().saveAbilityData(_abilityList);
   }
 
-  /// move に関するデータの取得、加工、保存を行う。
-  Future<void> _fetchAndSaveAbilityData(int moveIndex) async {
-    // * PokeAPI からデータを取得する。
-    final pokemonJson = await _pokeApiClient.fetchAbility(moveIndex);
-
-    // * 取得したデータをもとに、スキーマ（ model ）を生成する。
-    final moveScheme = _generateAbilityScheme(pokemonJson);
-
-    // TODO(me): todo スキーマ（ model ）を DB に保存する。
-  }
-
-  /// PokeAPI から取得したデータ（[moveJson]）をもとに、[MoveScheme] を生成する。
+  /// PokeAPI で取得したデータから [AbilityScheme] を生成する。
   AbilityScheme _generateAbilityScheme(
-    Map<String, dynamic> moveJson,
+    Map<String, dynamic> abilityJson,
   ) {
     return AbilityScheme(
-      id: moveJson['id'] as int,
-      name: _findJaName(moveJson),
-      description: _findJaDescription(moveJson),
+      id: abilityJson['id'] as int,
+      name: _findJaName(abilityJson),
+      description: _findJaDescription(abilityJson),
     );
   }
 
-  String _findJaName(Map<String, dynamic> moveJson) {
-    final nameLanguageMap = (moveJson['names'] as List<dynamic>).firstWhere(
+  String _findJaName(Map<String, dynamic> abilityJson) {
+    final nameLanguageMap = (abilityJson['names'] as List<dynamic>).firstWhere(
       (e) {
         final nameData = e as Map<String, dynamic>;
         final language = nameData['language'] as Map<String, dynamic>;
         return language['name'] == 'ja';
       },
-      orElse: () => throw Exception('name が取得できませんでした。'),
-    ) as Map<String, dynamic>;
+      orElse: () => null,
+    ) as Map<String, dynamic>?;
+
+    if (nameLanguageMap == null) {
+      print('jaName が取得できなかったため、空文字を返します。');
+      return '';
+    }
+
     final name = nameLanguageMap['name'] as String;
     return name;
   }
 
-  String _findJaDescription(Map<String, dynamic> moveJson) {
+  String _findJaDescription(Map<String, dynamic> abilityJson) {
     final descriptionLanguageMap =
-        (moveJson['flavor_text_entries'] as List<dynamic>).firstWhere(
+        (abilityJson['flavor_text_entries'] as List<dynamic>).firstWhere(
       (e) {
         final nameData = e as Map<String, dynamic>;
         final language = nameData['language'] as Map<String, dynamic>;
         return language['name'] == 'ja';
       },
-      orElse: () => throw Exception('description が取得できませんでした。'),
-    ) as Map<String, dynamic>;
+      orElse: () => null,
+    ) as Map<String, dynamic>?;
+
+    if (descriptionLanguageMap == null) {
+      print('description が取得できなかったため、空文字を返します。');
+      return '';
+    }
+
     final description = descriptionLanguageMap['flavor_text'] as String;
     return description;
   }

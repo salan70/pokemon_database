@@ -14,6 +14,10 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+BaseStatsScheme _$BaseStatsSchemeFromJson(Map<String, dynamic> json) {
+  return _BaseStatsScheme.fromJson(json);
+}
+
 /// @nodoc
 mixin _$BaseStatsScheme {
   /// 対応するポケモンの ID.
@@ -37,6 +41,7 @@ mixin _$BaseStatsScheme {
   /// すばやさ。
   int get speed => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $BaseStatsSchemeCopyWith<BaseStatsScheme> get copyWith =>
       throw _privateConstructorUsedError;
@@ -183,7 +188,7 @@ class __$$BaseStatsSchemeImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$BaseStatsSchemeImpl implements _BaseStatsScheme {
   const _$BaseStatsSchemeImpl(
       {required this.pokemonId,
@@ -193,6 +198,9 @@ class _$BaseStatsSchemeImpl implements _BaseStatsScheme {
       required this.specialAttack,
       required this.specialDefense,
       required this.speed});
+
+  factory _$BaseStatsSchemeImpl.fromJson(Map<String, dynamic> json) =>
+      _$$BaseStatsSchemeImplFromJson(json);
 
   /// 対応するポケモンの ID.
   @override
@@ -244,6 +252,7 @@ class _$BaseStatsSchemeImpl implements _BaseStatsScheme {
             (identical(other.speed, speed) || other.speed == speed));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, pokemonId, hp, attack, defense,
       specialAttack, specialDefense, speed);
@@ -254,6 +263,13 @@ class _$BaseStatsSchemeImpl implements _BaseStatsScheme {
   _$$BaseStatsSchemeImplCopyWith<_$BaseStatsSchemeImpl> get copyWith =>
       __$$BaseStatsSchemeImplCopyWithImpl<_$BaseStatsSchemeImpl>(
           this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$BaseStatsSchemeImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class _BaseStatsScheme implements BaseStatsScheme {
@@ -265,6 +281,9 @@ abstract class _BaseStatsScheme implements BaseStatsScheme {
       required final int specialAttack,
       required final int specialDefense,
       required final int speed}) = _$BaseStatsSchemeImpl;
+
+  factory _BaseStatsScheme.fromJson(Map<String, dynamic> json) =
+      _$BaseStatsSchemeImpl.fromJson;
 
   @override
 

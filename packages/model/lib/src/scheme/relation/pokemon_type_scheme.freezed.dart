@@ -14,14 +14,19 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+PokemonTypeScheme _$PokemonTypeSchemeFromJson(Map<String, dynamic> json) {
+  return _PokemonTypeScheme.fromJson(json);
+}
+
 /// @nodoc
 mixin _$PokemonTypeScheme {
   /// ポケモンの ID.
   int get pokemonId => throw _privateConstructorUsedError;
 
-  /// タイプ.
+  /// タイプ。
   PokeType get type => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $PokemonTypeSchemeCopyWith<PokemonTypeScheme> get copyWith =>
       throw _privateConstructorUsedError;
@@ -104,15 +109,18 @@ class __$$PokemonTypeSchemeImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$PokemonTypeSchemeImpl implements _PokemonTypeScheme {
   const _$PokemonTypeSchemeImpl({required this.pokemonId, required this.type});
+
+  factory _$PokemonTypeSchemeImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PokemonTypeSchemeImplFromJson(json);
 
   /// ポケモンの ID.
   @override
   final int pokemonId;
 
-  /// タイプ.
+  /// タイプ。
   @override
   final PokeType type;
 
@@ -131,6 +139,7 @@ class _$PokemonTypeSchemeImpl implements _PokemonTypeScheme {
             (identical(other.type, type) || other.type == type));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, pokemonId, type);
 
@@ -140,6 +149,13 @@ class _$PokemonTypeSchemeImpl implements _PokemonTypeScheme {
   _$$PokemonTypeSchemeImplCopyWith<_$PokemonTypeSchemeImpl> get copyWith =>
       __$$PokemonTypeSchemeImplCopyWithImpl<_$PokemonTypeSchemeImpl>(
           this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$PokemonTypeSchemeImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class _PokemonTypeScheme implements PokemonTypeScheme {
@@ -147,13 +163,16 @@ abstract class _PokemonTypeScheme implements PokemonTypeScheme {
       {required final int pokemonId,
       required final PokeType type}) = _$PokemonTypeSchemeImpl;
 
+  factory _PokemonTypeScheme.fromJson(Map<String, dynamic> json) =
+      _$PokemonTypeSchemeImpl.fromJson;
+
   @override
 
   /// ポケモンの ID.
   int get pokemonId;
   @override
 
-  /// タイプ.
+  /// タイプ。
   PokeType get type;
   @override
   @JsonKey(ignore: true)

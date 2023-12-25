@@ -1,35 +1,43 @@
-// ignore_for_file: unused_local_variable
-// TODO(me): todo スキーマ（ model ）を DB に保存したら、上記コメントを削除する。
-
 import 'package:model/model.dart';
 
 import '../poke_api/poke_api_client.dart';
+import '../sqflite/sqflite_command.dart';
 
 class MoveService {
-  final _pokeApiClient = PokeApiClient();
+  final _moveList = <MoveScheme>[];
 
   /// 全ての move のデータを取得し、 DB に保存する。
   Future<void> fetchAndSaveAllMoveData() async {
-    final moveCount = await _pokeApiClient.fetchMoveCount();
-    for (var i = 1; i <= moveCount; i++) {
-      await _fetchAndSaveMoveData(i);
+    final pokeApiClient = PokeApiClient();
+
+    // * PokeAPI からデータを取得し、_moveList に追加する。
+    final moveUrlList = await pokeApiClient.fetchMoveUrlList();
+    for (final url in moveUrlList) {
+      // url から id を取得する。
+      final index = int.parse(url.split('/')[6]);
+
+      // 10000 以上は、特殊なわざなので除外する。
+      if (index >= 10000) {
+        print('index: $index は特殊なわざなので除外します。');
+        continue;
+      }
+
+      final pokemonJson = await pokeApiClient.fetchMove(index);
+      final moveScheme = _generateMoveScheme(pokemonJson);
+      _moveList.add(moveScheme);
+
       // 制限を避けるため、 0.5 秒待つ。
       await Future<void>.delayed(const Duration(milliseconds: 500));
+
+      // 厳密にいうと index は取得件数じゃないことに注意。
+      print('$index / ${moveUrlList.length} 個目のわざを取得しました。');
     }
+
+    // * DB に保存する。
+    await SqfliteCommand().saveMoveData(_moveList);
   }
 
-  /// move に関するデータの取得、加工、保存を行う。
-  Future<void> _fetchAndSaveMoveData(int moveIndex) async {
-    // * PokeAPI からデータを取得する。
-    final pokemonJson = await _pokeApiClient.fetchMove(moveIndex);
-
-    // * 取得したデータをもとに、スキーマ（ model ）を生成する。
-    final moveScheme = _generateMoveScheme(pokemonJson);
-
-    // TODO(me): todo スキーマ（ model ）を DB に保存する。
-  }
-
-  /// PokeAPI から取得したデータ（[moveJson]）をもとに、[MoveScheme] を生成する。
+  /// PokeAPI で取得したデータから [MoveScheme] を生成する。
   MoveScheme _generateMoveScheme(
     Map<String, dynamic> moveJson,
   ) {
@@ -65,8 +73,14 @@ class MoveService {
         final language = nameData['language'] as Map<String, dynamic>;
         return language['name'] == 'ja';
       },
-      orElse: () => throw Exception('description が取得できませんでした。'),
-    ) as Map<String, dynamic>;
+      orElse: () => null,
+    ) as Map<String, dynamic>?;
+
+    if (descriptionLanguageMap == null) {
+      print('description が取得できなかったため、空文字を返します。');
+      return '';
+    }
+
     final description = descriptionLanguageMap['flavor_text'] as String;
     return description;
   }
@@ -78,8 +92,14 @@ class MoveService {
         final language = nameData['language'] as Map<String, dynamic>;
         return language['name'] == 'ja';
       },
-      orElse: () => throw Exception('jaName が取得できませんでした。'),
-    ) as Map<String, dynamic>;
+      orElse: () => null,
+    ) as Map<String, dynamic>?;
+
+    if (nameLanguageMap == null) {
+      print('jaName が取得できなかったため、空文字を返します。');
+      return '';
+    }
+
     final name = nameLanguageMap['name'] as String;
     return name;
   }

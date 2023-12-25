@@ -1,61 +1,92 @@
-// ignore_for_file: unused_local_variable
-// TODO(me): todo スキーマ（ model ）を DB に保存したら、上記コメントを削除する。
-
 import 'package:model/model.dart';
 
 import '../poke_api/poke_api_client.dart';
+import '../sqflite/sqflite_command.dart';
 
 class PokemonService {
-  final _pokeApiClient = PokeApiClient();
+  // PokeAPI で取得したデータを DB に保存するために一時的に保持するリスト。
+  // 大量のデータを保持する恐れがある。
+  final List<PokemonScheme> _pokemonList = [];
+  final List<BaseStatsScheme> _baseStatsList = [];
+  final List<PokemonAbilityScheme> _pokemonAbilityList = [];
+  final List<PokemonMoveScheme> _pokemonMoveList = [];
+  final List<PokemonTypeScheme> _pokemonTypeList = [];
 
   /// 全てのポケモンのデータを取得し、 DB に保存する。
   Future<void> fetchAndSaveAllPokemonData() async {
-    final pokemonCount = await _pokeApiClient.fetchPokemonCount();
-    for (var i = 1; i <= pokemonCount; i++) {
-      await _fetchAndSavePokemonData(i);
+    final pokeApiClient = PokeApiClient();
+
+    // * PokeAPI からデータを取得し、メンバ変数のリストに追加する。
+    final pokemonUrlList = await pokeApiClient.fetchPokemonUrlList();
+    for (final url in pokemonUrlList) {
+      // url から pokedex を取得する。
+      final index = int.parse(url.split('/')[6]);
+
+      // 10000 以上は、特殊なポケモンなので除外する。
+      if (index >= 10000) {
+        print('index: $index は特殊なポケモンなので除外します。');
+        continue;
+      }
+
+      final pokemonJson = await pokeApiClient.fetchPokemon(index);
+      final pokemonJaName = await pokeApiClient.fetchPokemonJapaneseName(index);
+      _generateAndAddToList(pokemonJson, pokemonJaName);
+
       // 制限を避けるため、 0.5 秒待つ。
       await Future<void>.delayed(const Duration(milliseconds: 500));
+
+      // 厳密にいうと index は取得件数じゃないことに注意。
+      print('$index / ${pokemonUrlList.length} 匹目のポケモンを取得しました。');
     }
-  }
 
-  /// pokemon に関するデータの取得、加工、保存を行う。
-  Future<void> _fetchAndSavePokemonData(int pokedex) async {
-    // * PokeAPI からデータを取得する。
-    final pokemonJson = await _pokeApiClient.fetchPokemon(pokedex);
-    final pokemonJaName =
-        await _pokeApiClient.fetchPokemonJapaneseName(pokedex);
-
-    // * 取得したデータをもとに、スキーマ（ model ）を生成する。
-    final pokemonScheme = _generatePokemonScheme(pokemonJson, pokemonJaName);
-    final baseStatsSchemeList = _generateBaseStatsScheme(pokemonJson);
-    final pokemonAbilitySchemeList = _generatePokemonAbilityScheme(pokemonJson);
-    final pokemonMoveSchemeList = _generatePokemonMoveScheme(pokemonJson);
-    final pokemonTypeSchemeList = _generatePokemonTypeScheme(pokemonJson);
-
-    // TODO(me): todo スキーマ（ model ）を DB に保存する。
-  }
-
-  /// PokeAPI から取得したデータ（[pokemonJson], [pokemonJaName]）をもとに、
-  ///  [PokemonScheme] を生成する。
-  PokemonScheme _generatePokemonScheme(
-    Map<String, dynamic> pokemonJson,
-    String pokemonJaName,
-  ) {
-    return PokemonScheme(
-      pokedex: pokemonJson['id'] as int,
-      name: pokemonJaName,
-      imageUrl: (pokemonJson['sprites']
-          as Map<String, dynamic>)['front_default'] as String,
+    // * DB にデータを保存する。
+    await SqfliteCommand().savePokemonData(
+      pokemonList: _pokemonList,
+      baseStatsList: _baseStatsList,
+      pokemonAbilityList: _pokemonAbilityList,
+      pokemonMoveList: _pokemonMoveList,
+      pokemonTypeList: _pokemonTypeList,
     );
   }
 
-  List<PokemonAbilityScheme> _generatePokemonAbilityScheme(
+  /// PokeAPI で取得したデータから各スキーマ（ model ）を生成し、
+  /// メンバ変数で保持しているリストに追加する。
+  void _generateAndAddToList(
     Map<String, dynamic> pokemonJson,
+    String pokemonJaName,
   ) {
-    final pokedex = pokemonJson['id'] as int;
-    final abilities = pokemonJson['abilities'] as List<dynamic>;
+    final converter = _Generator(pokemonJson);
 
-    final abilityList = abilities.map((e) {
+    _pokemonList.add(converter.generatePokemonScheme(pokemonJaName));
+    _pokemonAbilityList.addAll(converter.generatePokemonAbilityScheme());
+    _pokemonMoveList.addAll(converter.generatePokemonMoveScheme());
+    _pokemonTypeList.addAll(converter.generatePokemonTypeScheme());
+    _baseStatsList.add(converter.generateBaseStatsScheme());
+  }
+}
+
+/// PokeAPI で取得したデータから各スキーマ（ model ）を生成するためのクラス。
+class _Generator {
+  _Generator(this._pokemonJson);
+
+  final Map<String, dynamic> _pokemonJson;
+
+  /// [_pokemonJson] から [PokemonScheme] を生成する。
+  PokemonScheme generatePokemonScheme(String pokemonJaName) {
+    return PokemonScheme(
+      pokedex: _pokemonJson['id'] as int,
+      name: pokemonJaName,
+      imageUrl: (_pokemonJson['sprites']
+          as Map<String, dynamic>)['front_default'] as String?,
+    );
+  }
+
+  /// [_pokemonJson] から [PokemonAbilityScheme] を生成する。
+  List<PokemonAbilityScheme> generatePokemonAbilityScheme() {
+    final pokedex = _pokemonJson['id'] as int;
+    final abilities = _pokemonJson['abilities'] as List<dynamic>;
+
+    final pokemonAbilityList = abilities.map((e) {
       final eMap = e as Map<String, dynamic>;
       // abilityId を取得するために、 abilityUrl を取得する。
       final abilityUrl =
@@ -73,16 +104,16 @@ class PokemonService {
         abilityId: abilityId,
       );
     }).toList();
+    // 重複を削除したリストを生成する。
+    final uniqueList = pokemonAbilityList.toSet().toList();
 
-    // abilityId が重複しているものを削除して返す。
-    return abilityList.toSet().toList();
+    return uniqueList;
   }
 
-  List<PokemonMoveScheme> _generatePokemonMoveScheme(
-    Map<String, dynamic> pokemonJson,
-  ) {
-    final pokedex = pokemonJson['id'] as int;
-    final moves = pokemonJson['moves'] as List<dynamic>;
+  /// [_pokemonJson] から [PokemonMoveScheme] を生成する。
+  List<PokemonMoveScheme> generatePokemonMoveScheme() {
+    final pokedex = _pokemonJson['id'] as int;
+    final moves = _pokemonJson['moves'] as List<dynamic>;
 
     final moveList = moves.map((e) {
       final eMap = e as Map<String, dynamic>;
@@ -101,42 +132,16 @@ class PokemonService {
         moveId: moveId,
       );
     }).toList();
+    // 重複を削除したリストを生成する。
+    final uniqueList = moveList.toSet().toList();
 
-    // moveId が重複しているものを削除して返す。
-    return moveList.toSet().toList();
+    return uniqueList;
   }
 
-  List<BaseStatsScheme> _generateBaseStatsScheme(
-    Map<String, dynamic> pokemonJson,
-  ) {
-    final pokedex = pokemonJson['id'] as int;
-    final stats = pokemonJson['stats'] as List<dynamic>;
-
-    // 種族値は、hp, attack, defense, special-attack,
-    // special-defense, speed の順に並んでいる。
-    final baseStatsList = stats.map((e) {
-      final eMap = e as Map<String, dynamic>;
-      return eMap['base_stat'] as int;
-    }).toList();
-
-    return [
-      BaseStatsScheme(
-        pokemonId: pokedex,
-        hp: baseStatsList[0],
-        attack: baseStatsList[1],
-        defense: baseStatsList[2],
-        specialAttack: baseStatsList[3],
-        specialDefense: baseStatsList[4],
-        speed: baseStatsList[5],
-      ),
-    ];
-  }
-
-  List<PokemonTypeScheme> _generatePokemonTypeScheme(
-    Map<String, dynamic> pokemonJson,
-  ) {
-    final pokedex = pokemonJson['id'] as int;
-    final types = pokemonJson['types'] as List<dynamic>;
+  /// [_pokemonJson] から [PokemonTypeScheme] を生成する。
+  List<PokemonTypeScheme> generatePokemonTypeScheme() {
+    final pokedex = _pokemonJson['id'] as int;
+    final types = _pokemonJson['types'] as List<dynamic>;
 
     final typeList = <PokemonTypeScheme>[];
     for (final e in types) {
@@ -159,8 +164,32 @@ class PokemonService {
         ),
       );
     }
+    // 重複を削除したリストを生成する。
+    final uniqueList = typeList.toSet().toList();
 
-    // 重複しているものを削除して返す。
-    return typeList.toSet().toList();
+    return uniqueList;
+  }
+
+  /// [_pokemonJson] から [BaseStatsScheme] を生成する。
+  BaseStatsScheme generateBaseStatsScheme() {
+    final pokedex = _pokemonJson['id'] as int;
+    final stats = _pokemonJson['stats'] as List<dynamic>;
+
+    // 種族値は、hp, attack, defense, specialAttack,
+    // specialDefense, speed の順に並んでいる。
+    final baseStatsList = stats.map((e) {
+      final eMap = e as Map<String, dynamic>;
+      return eMap['base_stat'] as int;
+    }).toList();
+
+    return BaseStatsScheme(
+      pokemonId: pokedex,
+      hp: baseStatsList[0],
+      attack: baseStatsList[1],
+      defense: baseStatsList[2],
+      specialAttack: baseStatsList[3],
+      specialDefense: baseStatsList[4],
+      speed: baseStatsList[5],
+    );
   }
 }

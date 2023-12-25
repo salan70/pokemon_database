@@ -14,6 +14,10 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+MoveScheme _$MoveSchemeFromJson(Map<String, dynamic> json) {
+  return _MoveScheme.fromJson(json);
+}
+
 /// @nodoc
 mixin _$MoveScheme {
   /// ID.
@@ -28,7 +32,9 @@ mixin _$MoveScheme {
   /// 説明。
   String get description => throw _privateConstructorUsedError;
 
-  /// カテゴリ ID.
+  /// 技の種類.
+  ///
+  /// 例: ぶつり, とくしゅ, へんか。
   MoveCategory get category => throw _privateConstructorUsedError;
 
   /// 威力。
@@ -40,6 +46,7 @@ mixin _$MoveScheme {
   /// PP.
   int get pp => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $MoveSchemeCopyWith<MoveScheme> get copyWith =>
       throw _privateConstructorUsedError;
@@ -198,7 +205,7 @@ class __$$MoveSchemeImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$MoveSchemeImpl implements _MoveScheme {
   const _$MoveSchemeImpl(
       {required this.id,
@@ -209,6 +216,9 @@ class _$MoveSchemeImpl implements _MoveScheme {
       required this.power,
       required this.accuracy,
       required this.pp});
+
+  factory _$MoveSchemeImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MoveSchemeImplFromJson(json);
 
   /// ID.
   @override
@@ -226,7 +236,9 @@ class _$MoveSchemeImpl implements _MoveScheme {
   @override
   final String description;
 
-  /// カテゴリ ID.
+  /// 技の種類.
+  ///
+  /// 例: ぶつり, とくしゅ, へんか。
   @override
   final MoveCategory category;
 
@@ -265,6 +277,7 @@ class _$MoveSchemeImpl implements _MoveScheme {
             (identical(other.pp, pp) || other.pp == pp));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType, id, name, type, description, category, power, accuracy, pp);
@@ -274,6 +287,13 @@ class _$MoveSchemeImpl implements _MoveScheme {
   @pragma('vm:prefer-inline')
   _$$MoveSchemeImplCopyWith<_$MoveSchemeImpl> get copyWith =>
       __$$MoveSchemeImplCopyWithImpl<_$MoveSchemeImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MoveSchemeImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class _MoveScheme implements MoveScheme {
@@ -286,6 +306,9 @@ abstract class _MoveScheme implements MoveScheme {
       required final int? power,
       required final int? accuracy,
       required final int pp}) = _$MoveSchemeImpl;
+
+  factory _MoveScheme.fromJson(Map<String, dynamic> json) =
+      _$MoveSchemeImpl.fromJson;
 
   @override
 
@@ -305,7 +328,9 @@ abstract class _MoveScheme implements MoveScheme {
   String get description;
   @override
 
-  /// カテゴリ ID.
+  /// 技の種類.
+  ///
+  /// 例: ぶつり, とくしゅ, へんか。
   MoveCategory get category;
   @override
 

@@ -14,6 +14,10 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+AbilityScheme _$AbilitySchemeFromJson(Map<String, dynamic> json) {
+  return _AbilityScheme.fromJson(json);
+}
+
 /// @nodoc
 mixin _$AbilityScheme {
   /// ID.
@@ -25,6 +29,7 @@ mixin _$AbilityScheme {
   /// 説明。
   String get description => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $AbilitySchemeCopyWith<AbilityScheme> get copyWith =>
       throw _privateConstructorUsedError;
@@ -117,10 +122,13 @@ class __$$AbilitySchemeImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$AbilitySchemeImpl implements _AbilityScheme {
   const _$AbilitySchemeImpl(
       {required this.id, required this.name, required this.description});
+
+  factory _$AbilitySchemeImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AbilitySchemeImplFromJson(json);
 
   /// ID.
   @override
@@ -150,6 +158,7 @@ class _$AbilitySchemeImpl implements _AbilityScheme {
                 other.description == description));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, id, name, description);
 
@@ -158,6 +167,13 @@ class _$AbilitySchemeImpl implements _AbilityScheme {
   @pragma('vm:prefer-inline')
   _$$AbilitySchemeImplCopyWith<_$AbilitySchemeImpl> get copyWith =>
       __$$AbilitySchemeImplCopyWithImpl<_$AbilitySchemeImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$AbilitySchemeImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class _AbilityScheme implements AbilityScheme {
@@ -165,6 +181,9 @@ abstract class _AbilityScheme implements AbilityScheme {
       {required final int id,
       required final String name,
       required final String description}) = _$AbilitySchemeImpl;
+
+  factory _AbilityScheme.fromJson(Map<String, dynamic> json) =
+      _$AbilitySchemeImpl.fromJson;
 
   @override
 
