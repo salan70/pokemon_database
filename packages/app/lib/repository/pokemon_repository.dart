@@ -53,6 +53,10 @@ class PokemonRepository {
       whereArgs: [50],
     );
 
+    if (pokemonMapList.isEmpty) {
+      throw Exception('ポケモンが存在しません。');
+    }
+
     /// PokemonScheme に変換して返す。
     return pokemonMapList.map(PokemonScheme.fromJson).toList();
   }
@@ -65,6 +69,10 @@ class PokemonRepository {
       whereArgs: [pokedex],
     );
 
+    if (pokemonMapList.isEmpty) {
+      throw Exception('pokedex: $pokedex の [BaseStatsScheme] が存在しません。');
+    }
+
     /// BaseStatsScheme に変換して返す。
     return BaseStatsScheme.fromJson(pokemonMapList.first);
   }
@@ -76,6 +84,10 @@ class PokemonRepository {
       where: 'pokemonId = ?',
       whereArgs: [pokedex],
     );
+
+    if (pokemonMoveMapList.isEmpty) {
+      throw Exception('pokedex: $pokedex の [PokemonMoveScheme] が存在しません。');
+    }
 
     /// PokemonMoveScheme に変換して返す。
     return pokemonMoveMapList.map(PokemonMoveScheme.fromJson).toList();
@@ -91,6 +103,10 @@ class PokemonRepository {
       whereArgs: [pokedex],
     );
 
+    if (pokemonAbilityMapList.isEmpty) {
+      throw Exception('pokedex: $pokedex の [PokemonAbilityScheme] が存在しません。');
+    }
+
     /// PokemonAbilityScheme に変換して返す。
     return pokemonAbilityMapList.map(PokemonAbilityScheme.fromJson).toList();
   }
@@ -102,6 +118,10 @@ class PokemonRepository {
       where: 'pokemonId = ?',
       whereArgs: [pokedex],
     );
+
+    if (pokemonTypeMapList.isEmpty) {
+      throw Exception('pokedex: $pokedex の [PokemonTypeScheme] が存在しません。');
+    }
 
     /// PokemonTypeScheme に変換して返す。
     return pokemonTypeMapList.map(PokemonTypeScheme.fromJson).toList();
