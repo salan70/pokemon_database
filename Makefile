@@ -1,5 +1,6 @@
 .PHONY: setup
 setup:
+	melos bootstrap
 	melos run clean
 	melos run pub-get
 
