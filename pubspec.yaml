@@ -12,7 +12,7 @@ dependencies:
   melos: ^3.4.0
 
 dev_dependencies:
-  pedantic_mono: any
+  pedantic_mono:
 
 flutter:
   uses-material-design: true
