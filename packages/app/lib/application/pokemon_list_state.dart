@@ -9,6 +9,7 @@ import '../domain/pokemon.dart';
 
 part 'pokemon_list_state.g.dart';
 
+// TODO(me): famimly provider にして、表示対象の pokedex のリストを渡せるようにする。
 @riverpod
 Future<List<Pokemon>> pokemonList(PokemonListRef ref) async {
   final pokemonRepository = await ref.watch(pokemonRepositoryProvider.future);

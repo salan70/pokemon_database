@@ -5,6 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
 
+import '../util/constant/strings.dart';
 import '../util/logger.dart';
 
 part 'move_repository.g.dart';
@@ -29,7 +30,7 @@ class MoveRepository {
 
   /// assets から db ファイルを読み込む。
   Future<void> loadDb() async {
-    final path = join('assets/db/$moveDb');
+    final path = join(moveDbPath);
     final loadedDb = await rootBundle.load(path);
     final dbBytes = loadedDb.buffer.asUint8List();
     await databaseFactoryFfiWeb.writeDatabaseBytes(
