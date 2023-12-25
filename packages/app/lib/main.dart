@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'repository/pokemon_repository.dart';
+import 'application/pokemon_list_state.dart';
 import 'util/logger.dart';
 
 void main() async {
@@ -24,9 +24,7 @@ class MainApp extends ConsumerWidget {
           child: TextButton(
             onPressed: () async {
               logger.i('Hello');
-              final repository = ref.read(pokemonRepositoryProvider);
-              await repository.init();
-              final pokemonList = await repository.fetchPokemonSchemeList();
+              final pokemonList = await ref.read(pokemonListProvider.future);
               logger.i(pokemonList);
             },
             child: const Text('Hello'),

@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:model/model.dart';
 
 part 'base_stats.freezed.dart';
 
@@ -24,4 +25,16 @@ class BaseStats with _$BaseStats {
     /// すばやさ。
     required int speed,
   }) = _BaseStats;
+
+  /// [BaseStatsScheme] から [BaseStats] を生成する。
+  factory BaseStats.fromScheme(BaseStatsScheme scheme) {
+    return BaseStats(
+      hp: scheme.hp,
+      attack: scheme.attack,
+      defense: scheme.defense,
+      specialAttack: scheme.specialAttack,
+      specialDefense: scheme.specialDefense,
+      speed: scheme.speed,
+    );
+  }
 }

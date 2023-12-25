@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$Ability {
   /// id.
-  String get id => throw _privateConstructorUsedError;
+  int get id => throw _privateConstructorUsedError;
 
   /// 日本語名。
   String get name => throw _privateConstructorUsedError;
@@ -36,7 +36,7 @@ abstract class $AbilityCopyWith<$Res> {
   factory $AbilityCopyWith(Ability value, $Res Function(Ability) then) =
       _$AbilityCopyWithImpl<$Res, Ability>;
   @useResult
-  $Res call({String id, String name, String description});
+  $Res call({int id, String name, String description});
 }
 
 /// @nodoc
@@ -60,7 +60,7 @@ class _$AbilityCopyWithImpl<$Res, $Val extends Ability>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -80,7 +80,7 @@ abstract class _$$AbilityImplCopyWith<$Res> implements $AbilityCopyWith<$Res> {
       __$$AbilityImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String name, String description});
+  $Res call({int id, String name, String description});
 }
 
 /// @nodoc
@@ -102,7 +102,7 @@ class __$$AbilityImplCopyWithImpl<$Res>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -123,7 +123,7 @@ class _$AbilityImpl implements _Ability {
 
   /// id.
   @override
-  final String id;
+  final int id;
 
   /// 日本語名。
   @override
@@ -163,14 +163,14 @@ class _$AbilityImpl implements _Ability {
 
 abstract class _Ability implements Ability {
   const factory _Ability(
-      {required final String id,
+      {required final int id,
       required final String name,
       required final String description}) = _$AbilityImpl;
 
   @override
 
   /// id.
-  String get id;
+  int get id;
   @override
 
   /// 日本語名。
