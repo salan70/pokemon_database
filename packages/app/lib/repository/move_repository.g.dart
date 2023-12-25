@@ -6,7 +6,7 @@ part of 'move_repository.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$moveRepositoryHash() => r'965f9d7f637c9324df941fa31ed481aa01d36c13';
+String _$moveRepositoryHash() => r'4f8e5ffa675cefa6f833c7a6c541a95dcd89ca24';
 
 /// [MoveRepository] を保持する provider.
 ///

@@ -6,7 +6,7 @@ part of 'ability_repository.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$abilityRepositoryHash() => r'ffca26d43bdac847519bd2582467bb2ca7505c1a';
+String _$abilityRepositoryHash() => r'cdbaeb4224b39bb68b8fd5715031b20672ea6447';
 
 /// [AbilityRepository] を保持する provider.
 ///

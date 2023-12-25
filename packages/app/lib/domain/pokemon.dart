@@ -27,8 +27,9 @@ class Pokemon with _$Pokemon {
     /// 所持しうる「とくせい」リスト。
     required List<Ability> abilityList,
 
+    // `Pokemon` 一覧表示時には不要 かつ 取得が重いのでコメントアウトしておく。
     /// 覚える「わざ」 id のリスト。
-    required List<int> moveIdList,
+    // required List<int> moveIdList,
 
     /// 種族値。
     required BaseStats baseStats,

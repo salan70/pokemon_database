@@ -31,11 +31,10 @@ mixin _$Pokemon {
   List<PokeType> get typeList => throw _privateConstructorUsedError;
 
   /// 所持しうる「とくせい」リスト。
-  List<Ability> get abilityList => throw _privateConstructorUsedError;
-
+  List<Ability> get abilityList =>
+      throw _privateConstructorUsedError; // `Pokemon` 一覧表示時には不要 かつ 取得が重いのでコメントアウトしておく。
   /// 覚える「わざ」 id のリスト。
-  List<int> get moveIdList => throw _privateConstructorUsedError;
-
+// required List<int> moveIdList,
   /// 種族値。
   BaseStats get baseStats => throw _privateConstructorUsedError;
 
@@ -54,7 +53,6 @@ abstract class $PokemonCopyWith<$Res> {
       String? imageUrl,
       List<PokeType> typeList,
       List<Ability> abilityList,
-      List<int> moveIdList,
       BaseStats baseStats});
 
   $BaseStatsCopyWith<$Res> get baseStats;
@@ -78,7 +76,6 @@ class _$PokemonCopyWithImpl<$Res, $Val extends Pokemon>
     Object? imageUrl = freezed,
     Object? typeList = null,
     Object? abilityList = null,
-    Object? moveIdList = null,
     Object? baseStats = null,
   }) {
     return _then(_value.copyWith(
@@ -102,10 +99,6 @@ class _$PokemonCopyWithImpl<$Res, $Val extends Pokemon>
           ? _value.abilityList
           : abilityList // ignore: cast_nullable_to_non_nullable
               as List<Ability>,
-      moveIdList: null == moveIdList
-          ? _value.moveIdList
-          : moveIdList // ignore: cast_nullable_to_non_nullable
-              as List<int>,
       baseStats: null == baseStats
           ? _value.baseStats
           : baseStats // ignore: cast_nullable_to_non_nullable
@@ -135,7 +128,6 @@ abstract class _$$PokemonImplCopyWith<$Res> implements $PokemonCopyWith<$Res> {
       String? imageUrl,
       List<PokeType> typeList,
       List<Ability> abilityList,
-      List<int> moveIdList,
       BaseStats baseStats});
 
   @override
@@ -158,7 +150,6 @@ class __$$PokemonImplCopyWithImpl<$Res>
     Object? imageUrl = freezed,
     Object? typeList = null,
     Object? abilityList = null,
-    Object? moveIdList = null,
     Object? baseStats = null,
   }) {
     return _then(_$PokemonImpl(
@@ -182,10 +173,6 @@ class __$$PokemonImplCopyWithImpl<$Res>
           ? _value._abilityList
           : abilityList // ignore: cast_nullable_to_non_nullable
               as List<Ability>,
-      moveIdList: null == moveIdList
-          ? _value._moveIdList
-          : moveIdList // ignore: cast_nullable_to_non_nullable
-              as List<int>,
       baseStats: null == baseStats
           ? _value.baseStats
           : baseStats // ignore: cast_nullable_to_non_nullable
@@ -203,11 +190,9 @@ class _$PokemonImpl implements _Pokemon {
       required this.imageUrl,
       required final List<PokeType> typeList,
       required final List<Ability> abilityList,
-      required final List<int> moveIdList,
       required this.baseStats})
       : _typeList = typeList,
-        _abilityList = abilityList,
-        _moveIdList = moveIdList;
+        _abilityList = abilityList;
 
   /// 図鑑番号。
   @override
@@ -245,24 +230,16 @@ class _$PokemonImpl implements _Pokemon {
     return EqualUnmodifiableListView(_abilityList);
   }
 
+// `Pokemon` 一覧表示時には不要 かつ 取得が重いのでコメントアウトしておく。
   /// 覚える「わざ」 id のリスト。
-  final List<int> _moveIdList;
-
-  /// 覚える「わざ」 id のリスト。
-  @override
-  List<int> get moveIdList {
-    if (_moveIdList is EqualUnmodifiableListView) return _moveIdList;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_moveIdList);
-  }
-
+// required List<int> moveIdList,
   /// 種族値。
   @override
   final BaseStats baseStats;
 
   @override
   String toString() {
-    return 'Pokemon(pokedex: $pokedex, name: $name, imageUrl: $imageUrl, typeList: $typeList, abilityList: $abilityList, moveIdList: $moveIdList, baseStats: $baseStats)';
+    return 'Pokemon(pokedex: $pokedex, name: $name, imageUrl: $imageUrl, typeList: $typeList, abilityList: $abilityList, baseStats: $baseStats)';
   }
 
   @override
@@ -277,8 +254,6 @@ class _$PokemonImpl implements _Pokemon {
             const DeepCollectionEquality().equals(other._typeList, _typeList) &&
             const DeepCollectionEquality()
                 .equals(other._abilityList, _abilityList) &&
-            const DeepCollectionEquality()
-                .equals(other._moveIdList, _moveIdList) &&
             (identical(other.baseStats, baseStats) ||
                 other.baseStats == baseStats));
   }
@@ -291,7 +266,6 @@ class _$PokemonImpl implements _Pokemon {
       imageUrl,
       const DeepCollectionEquality().hash(_typeList),
       const DeepCollectionEquality().hash(_abilityList),
-      const DeepCollectionEquality().hash(_moveIdList),
       baseStats);
 
   @JsonKey(ignore: true)
@@ -308,7 +282,6 @@ abstract class _Pokemon implements Pokemon {
       required final String? imageUrl,
       required final List<PokeType> typeList,
       required final List<Ability> abilityList,
-      required final List<int> moveIdList,
       required final BaseStats baseStats}) = _$PokemonImpl;
 
   @override
@@ -333,12 +306,9 @@ abstract class _Pokemon implements Pokemon {
 
   /// 所持しうる「とくせい」リスト。
   List<Ability> get abilityList;
-  @override
-
+  @override // `Pokemon` 一覧表示時には不要 かつ 取得が重いのでコメントアウトしておく。
   /// 覚える「わざ」 id のリスト。
-  List<int> get moveIdList;
-  @override
-
+// required List<int> moveIdList,
   /// 種族値。
   BaseStats get baseStats;
   @override

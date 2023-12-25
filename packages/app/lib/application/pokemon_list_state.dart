@@ -21,9 +21,6 @@ Future<List<Pokemon>> pokemonList(PokemonListRef ref) async {
     // 必要なデータを取得する。
     final typeList = await _fetchTypeListFromPokedex(pokedex, ref);
     final abilityList = await _fetchAbilityListFromPokedex(pokedex, ref);
-    final moveIdList = <int>[];
-    // この処理は時間がかかる かつ 重要度が低いのでコメントアウトしておく。
-    // await _fetchMoveIdListFromPokedex(pokedex, ref);
     final baseStats = await _fetchBaseStats(pokedex, ref);
 
     final pokemon = Pokemon(
@@ -32,7 +29,6 @@ Future<List<Pokemon>> pokemonList(PokemonListRef ref) async {
       imageUrl: pokemonScheme.imageUrl,
       typeList: typeList,
       abilityList: abilityList,
-      moveIdList: moveIdList,
       baseStats: baseStats,
     );
 
@@ -74,6 +70,7 @@ Future<List<Ability>> _fetchAbilityListFromPokedex(
   return abilitySchemeList.map(Ability.fromScheme).toList();
 }
 
+// `Pokemon` 一覧表示時には不要 かつ 取得が重いのでコメントアウトしておく。
 /// [pokedex] に合致するポケモンが覚える「わざ」の id リストを取得する。
 // Future<List<int>> _fetchMoveIdListFromPokedex(
 //   int pokedex,

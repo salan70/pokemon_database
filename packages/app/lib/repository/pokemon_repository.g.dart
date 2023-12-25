@@ -6,7 +6,7 @@ part of 'pokemon_repository.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$pokemonRepositoryHash() => r'87fe7021a89c8860dfd9ef7011b4dfa320b9d60f';
+String _$pokemonRepositoryHash() => r'e6240c45ad443b9b7f28822a5aadb3914fa91b8e';
 
 /// [PokemonRepository] を保持する provider.
 ///
