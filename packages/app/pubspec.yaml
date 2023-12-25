@@ -9,18 +9,31 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  freezed_annotation: any
-  json_annotation: any
+  flutter_riverpod:
+  freezed_annotation:
+  json_annotation:
   model:
     path: ../model
+  path:
+  path_provider:
+  riverpod_annotation:
+  roggle:
+  sqflite_common_ffi:
+  sqflite_common_ffi_web:
 
 dev_dependencies:
-  build_runner: any
+  build_runner:
   flutter_test:
     sdk: flutter
-  freezed: any
-  json_serializable: any
-  pedantic_mono: any
+  freezed: 
+  json_serializable:
+  pedantic_mono: 
+  riverpod_generator: 
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/db/ability.db
+    - assets/db/move.db
+    - assets/db/pokemon.db

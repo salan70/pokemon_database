@@ -22,7 +22,7 @@ mixin _$Pokemon {
   /// 日本語名。
   String get name => throw _privateConstructorUsedError;
 
-  /// 画像の URL。
+  /// 画像の URL.
   ///
   /// 画像がない場合は null が入る。
   String? get imageUrl => throw _privateConstructorUsedError;
@@ -217,7 +217,7 @@ class _$PokemonImpl implements _Pokemon {
   @override
   final String name;
 
-  /// 画像の URL。
+  /// 画像の URL.
   ///
   /// 画像がない場合は null が入る。
   @override
@@ -320,7 +320,7 @@ abstract class _Pokemon implements Pokemon {
   String get name;
   @override
 
-  /// 画像の URL。
+  /// 画像の URL.
   ///
   /// 画像がない場合は null が入る。
   String? get imageUrl;
