@@ -19,11 +19,13 @@ class PokemonRepository {
 
   /// assets から db ファイルを取得し、データベースに書き込む。
   Future<void> init() async {
-    final pokemonDbPath = await join('assets/db/pokemon.db');
+    final pokemonDbPath = join('assets/db/pokemon.db');
     final pokemonDb = await rootBundle.load(pokemonDbPath);
     final pokemonDbBytes = pokemonDb.buffer.asUint8List();
     await databaseFactoryFfiWeb.writeDatabaseBytes(
-        pokemonDbPath, pokemonDbBytes);
+      pokemonDbPath,
+      pokemonDbBytes,
+    );
 
     _pokemonDb = await databaseFactoryFfiWeb.openDatabase(pokemonDbPath);
   }
@@ -40,6 +42,6 @@ class PokemonRepository {
     await _pokemonDb.close();
 
     /// PokemonScheme に変換して返す。
-    return pokemonMapList.map((e) => PokemonScheme.fromJson(e)).toList();
+    return pokemonMapList.map(PokemonScheme.fromJson).toList();
   }
 }

@@ -6,11 +6,11 @@ import 'util/logger.dart';
 
 void main() async {
   await init();
-  runApp(ProviderScope(child: const MainApp()));
+  runApp(const ProviderScope(child: MainApp()));
 }
 
 Future<void> init() async {
-  await WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
 }
 
 class MainApp extends ConsumerWidget {
@@ -29,7 +29,7 @@ class MainApp extends ConsumerWidget {
               final pokemonList = await repository.fetchPokemonSchemeList();
               logger.i(pokemonList);
             },
-            child: Text('Hello'),
+            child: const Text('Hello'),
           ),
         ),
       ),
