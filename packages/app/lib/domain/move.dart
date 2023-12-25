@@ -3,7 +3,6 @@ import 'package:model/model.dart';
 
 part 'move.freezed.dart';
 
-
 /// わざ オブジェクト。
 @freezed
 class Move with _$Move {
