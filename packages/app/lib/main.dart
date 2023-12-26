@@ -17,9 +17,10 @@ class MainApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return const MaterialApp(
+    return MaterialApp(
+      theme: ThemeData(fontFamily: 'LINESeedJP'),
       debugShowCheckedModeBanner: false,
-      home: TopPage(),
+      home: const TopPage(),
     );
   }
 }
