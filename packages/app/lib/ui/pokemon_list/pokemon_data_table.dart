@@ -1,9 +1,9 @@
+import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:model/model.dart';
 
 import '../../application/pokemon_list_state.dart';
-import '../../domain/ability.dart';
 import '../../domain/pokemon.dart';
 
 class PokemonDataTable extends ConsumerWidget {
@@ -18,19 +18,42 @@ class PokemonDataTable extends ConsumerWidget {
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (error, stackTrace) => Center(child: Text(error.toString())),
       data: (pokemonList) {
-        return DataTable(
+        return DataTable2(
+          headingTextStyle: Theme.of(context).textTheme.labelSmall,
+          dataTextStyle: Theme.of(context).textTheme.labelMedium,
+          horizontalMargin: 2,
+          columnSpacing: 4,
           columns: const <DataColumn>[
-            DataColumn(label: Text('No.')),
-            DataColumn(label: Text('名前')),
-            DataColumn(label: Text('タイプ')),
-            DataColumn(label: Text('とくせい')),
-            DataColumn(label: Text('合計')),
-            DataColumn(label: Text('HP')),
-            DataColumn(label: Text('こうげき')),
-            DataColumn(label: Text('ぼうぎょ')),
-            DataColumn(label: Text('とくこう')),
-            DataColumn(label: Text('とくぼう')),
-            DataColumn(label: Text('すばやさ')),
+            DataColumn2(label: Text('名前', textAlign: TextAlign.center)),
+            DataColumn2(label: Text('タイプ', textAlign: TextAlign.center)),
+            DataColumn2(
+              label: Text('合計', textAlign: TextAlign.center),
+              size: ColumnSize.S,
+            ),
+            DataColumn2(
+              label: Text('HP', textAlign: TextAlign.center),
+              size: ColumnSize.S,
+            ),
+            DataColumn2(
+              label: Text('こうげき', textAlign: TextAlign.center),
+              size: ColumnSize.S,
+            ),
+            DataColumn2(
+              label: Text('ぼうぎょ', textAlign: TextAlign.center),
+              size: ColumnSize.S,
+            ),
+            DataColumn2(
+              label: Text('とくこう', textAlign: TextAlign.center),
+              size: ColumnSize.S,
+            ),
+            DataColumn2(
+              label: Text('とくぼう', textAlign: TextAlign.center),
+              size: ColumnSize.S,
+            ),
+            DataColumn2(
+              label: Text('すばやさ', textAlign: TextAlign.center),
+              size: ColumnSize.S,
+            ),
           ],
           rows: <DataRow>[
             for (final pokemon in pokemonList)
@@ -53,20 +76,17 @@ class _PokemonDataRow extends DataRow {
   /// [pokemon] から [DataCell] のリストを生成する。
   static List<DataCell> _buildCells(Pokemon pokemon) {
     final typeText = _buildTypeText(pokemon.typeList);
-    final abilityText = _buildAbilityText(pokemon.abilityList);
 
     return <DataCell>[
-      DataCell(Text(pokemon.pokedex.toString())),
       DataCell(Text(pokemon.name)),
       DataCell(Text(typeText)),
-      DataCell(Text(abilityText)),
-      DataCell(Text(pokemon.baseStats.total.toString())),
-      DataCell(Text(pokemon.baseStats.hp.toString())),
-      DataCell(Text(pokemon.baseStats.attack.toString())),
-      DataCell(Text(pokemon.baseStats.defense.toString())),
-      DataCell(Text(pokemon.baseStats.specialAttack.toString())),
-      DataCell(Text(pokemon.baseStats.specialDefense.toString())),
-      DataCell(Text(pokemon.baseStats.speed.toString())),
+      DataCell(Text('${pokemon.baseStats.total}')),
+      DataCell(Text('${pokemon.baseStats.hp}')),
+      DataCell(Text('${pokemon.baseStats.attack}')),
+      DataCell(Text('${pokemon.baseStats.defense}')),
+      DataCell(Text('${pokemon.baseStats.specialAttack}')),
+      DataCell(Text('${pokemon.baseStats.specialDefense}')),
+      DataCell(Text('${pokemon.baseStats.speed}')),
     ];
   }
 
@@ -74,11 +94,5 @@ class _PokemonDataRow extends DataRow {
   static String _buildTypeText(List<PokeType> typeList) {
     final typeLabelList = typeList.map((e) => e.jaLabel).toList();
     return typeLabelList.join('\n');
-  }
-
-  /// [abilityList] から 「とくせい」として表示するテキストを生成する。
-  static String _buildAbilityText(List<Ability> abilityList) {
-    final abilityLabelList = abilityList.map((e) => e.name).toList();
-    return abilityLabelList.join('\n');
   }
 }

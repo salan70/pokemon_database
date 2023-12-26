@@ -1,6 +1,7 @@
 import 'package:app/util/constant/pokedex_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gap/gap.dart';
 
 import 'pokemon_data_table.dart';
 
@@ -41,10 +42,14 @@ class _TopPageState extends ConsumerState<TopPage> {
           ),
         ],
       ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: PokemonDataTable(pokedexList: pokedexList),
-        ),
+      body: Row(
+        children: [
+          const Gap(8),
+          Expanded(child: PokemonDataTable(pokedexList: pokedexList)),
+          const Gap(8),
+          const Expanded(child: Text('textやで')),
+          const Gap(8),
+        ],
       ),
     );
   }
