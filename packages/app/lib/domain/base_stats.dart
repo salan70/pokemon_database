@@ -25,6 +25,7 @@ class BaseStats with _$BaseStats {
     /// すばやさ。
     required int speed,
   }) = _BaseStats;
+  const BaseStats._();
 
   /// [BaseStatsScheme] から [BaseStats] を生成する。
   factory BaseStats.fromScheme(BaseStatsScheme scheme) {
@@ -37,4 +38,8 @@ class BaseStats with _$BaseStats {
       speed: scheme.speed,
     );
   }
+
+  /// 合計値。
+  int get total =>
+      hp + attack + defense + specialAttack + specialDefense + speed;
 }
