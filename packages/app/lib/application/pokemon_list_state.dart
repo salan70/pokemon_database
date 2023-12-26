@@ -12,10 +12,10 @@ part 'pokemon_list_state.g.dart';
 // TODO(me): famimly provider にして、表示対象の pokedex のリストを渡せるようにする。
 @riverpod
 Future<List<Pokemon>> pokemonList(PokemonListRef ref) async {
-  final pokemonRepository = await ref.watch(pokemonRepositoryProvider.future);
   final pokemonList = <Pokemon>[];
 
-  final pokemonSchemeList = await pokemonRepository.fetchPokemonList();
+  final pokemonSchemeList =
+      await ref.watch(pokemonRepositoryProvider).fetchPokemonList();
   for (final pokemonScheme in pokemonSchemeList) {
     final pokedex = pokemonScheme.pokedex;
 
@@ -44,9 +44,8 @@ Future<List<PokeType>> _fetchTypeListFromPokedex(
   int pokedex,
   PokemonListRef ref,
 ) async {
-  final pokemonRepository = await ref.watch(pokemonRepositoryProvider.future);
   final pokemonTypeSchemeList =
-      await pokemonRepository.fetchPokemonTypeList(pokedex);
+      await ref.read(pokemonRepositoryProvider).fetchPokemonTypeList(pokedex);
 
   return pokemonTypeSchemeList.map((e) => e.type).toList();
 }
@@ -57,16 +56,16 @@ Future<List<Ability>> _fetchAbilityListFromPokedex(
   PokemonListRef ref,
 ) async {
   // とくせいの id リストを取得する。
-  final pokemonRepository = await ref.watch(pokemonRepositoryProvider.future);
-  final pokemonAbilitySchemeList =
-      await pokemonRepository.fetchPokemonAbilityList(pokedex);
+  final pokemonAbilitySchemeList = await ref
+      .read(pokemonRepositoryProvider)
+      .fetchPokemonAbilityList(pokedex);
   final abilityIdList =
       pokemonAbilitySchemeList.map((e) => e.abilityId).toList();
 
   // とくせいのリストを取得する。
-  final abilityRepository = await ref.read(abilityRepositoryProvider.future);
-  final abilitySchemeList =
-      await abilityRepository.fetchAbilitySchemeList(abilityIdList);
+  final abilitySchemeList = await ref
+      .read(abilityRepositoryProvider)
+      .fetchAbilitySchemeList(abilityIdList);
 
   return abilitySchemeList.map(Ability.fromScheme).toList();
 }
@@ -88,8 +87,8 @@ Future<BaseStats> _fetchBaseStats(
   int pokedex,
   PokemonListRef ref,
 ) async {
-  final pokemonRepository = await ref.watch(pokemonRepositoryProvider.future);
-  final baseStatsScheme = await pokemonRepository.fetchBaseStats(pokedex);
+  final baseStatsScheme =
+      await ref.read(pokemonRepositoryProvider).fetchBaseStats(pokedex);
 
   return BaseStats.fromScheme(baseStatsScheme);
 }

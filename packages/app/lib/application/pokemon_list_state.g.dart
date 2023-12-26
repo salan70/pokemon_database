@@ -6,7 +6,7 @@ part of 'pokemon_list_state.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$pokemonListHash() => r'63c247ebb5b2a2cda20fa250f400b55c68156acc';
+String _$pokemonListHash() => r'e2898e1e296a6a6a41bd00444f8906546cea8582';
 
 /// See also [pokemonList].
 @ProviderFor(pokemonList)

@@ -6,14 +6,14 @@ part of 'pokemon_repository.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$pokemonRepositoryHash() => r'e6240c45ad443b9b7f28822a5aadb3914fa91b8e';
+String _$pokemonRepositoryHash() => r'5c9b56f0b656bdc401728e757d757f9432270681';
 
 /// [PokemonRepository] を保持する provider.
 ///
 /// Copied from [pokemonRepository].
 @ProviderFor(pokemonRepository)
 final pokemonRepositoryProvider =
-    AutoDisposeFutureProvider<PokemonRepository>.internal(
+    AutoDisposeProvider<PokemonRepository>.internal(
   pokemonRepository,
   name: r'pokemonRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -23,6 +23,6 @@ final pokemonRepositoryProvider =
   allTransitiveDependencies: null,
 );
 
-typedef PokemonRepositoryRef = AutoDisposeFutureProviderRef<PokemonRepository>;
+typedef PokemonRepositoryRef = AutoDisposeProviderRef<PokemonRepository>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

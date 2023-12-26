@@ -6,14 +6,14 @@ part of 'ability_repository.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$abilityRepositoryHash() => r'cdbaeb4224b39bb68b8fd5715031b20672ea6447';
+String _$abilityRepositoryHash() => r'2166d19b7069e77226a5efc94f8c68e713637ef5';
 
 /// [AbilityRepository] を保持する provider.
 ///
 /// Copied from [abilityRepository].
 @ProviderFor(abilityRepository)
 final abilityRepositoryProvider =
-    AutoDisposeFutureProvider<AbilityRepository>.internal(
+    AutoDisposeProvider<AbilityRepository>.internal(
   abilityRepository,
   name: r'abilityRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -23,6 +23,6 @@ final abilityRepositoryProvider =
   allTransitiveDependencies: null,
 );
 
-typedef AbilityRepositoryRef = AutoDisposeFutureProviderRef<AbilityRepository>;
+typedef AbilityRepositoryRef = AutoDisposeProviderRef<AbilityRepository>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
