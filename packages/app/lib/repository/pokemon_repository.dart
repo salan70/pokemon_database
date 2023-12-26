@@ -17,15 +17,12 @@ class PokemonRepository {
 
   final Ref _ref;
 
-  /// [PokemonScheme] のリストを取得する。
-  Future<List<PokemonScheme>> fetchPokemonList() async {
+  /// [pokedexList] に合致する [PokemonScheme] のリストを取得する。
+  Future<List<PokemonScheme>> fetchPokemonList(List<int> pokedexList) async {
     final db = await _ref.read(dbProvider(pokemonDb).future);
-
-    // 図鑑番号が 1 から 50 までのポケモンを取得する。
     final pokemonMapList = await db.query(
       PokemonScheme.tableName,
-      where: 'pokedex <= ?',
-      whereArgs: [50],
+      where: 'pokedex IN (${pokedexList.join(',')})',
     );
 
     if (pokemonMapList.isEmpty) {

@@ -6,16 +6,21 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../domain/ability.dart';
 import '../domain/pokemon.dart';
+import '../util/logger.dart';
 
 part 'pokemon_list_state.g.dart';
 
-// TODO(me): famimly provider にして、表示対象の pokedex のリストを渡せるようにする。
+/// [pokedexList] に合致する [Pokemon] のリストを保持する provider.
 @riverpod
-Future<List<Pokemon>> pokemonList(PokemonListRef ref) async {
+Future<List<Pokemon>> pokemonList(
+  PokemonListRef ref,
+  List<int> pokedexList,
+) async {
+  logger.i('ポケモン一覧のロードを開始します。');
   final pokemonList = <Pokemon>[];
 
   final pokemonSchemeList =
-      await ref.watch(pokemonRepositoryProvider).fetchPokemonList();
+      await ref.watch(pokemonRepositoryProvider).fetchPokemonList(pokedexList);
   for (final pokemonScheme in pokemonSchemeList) {
     final pokedex = pokemonScheme.pokedex;
 
@@ -36,6 +41,7 @@ Future<List<Pokemon>> pokemonList(PokemonListRef ref) async {
     pokemonList.add(pokemon);
   }
 
+  logger.i('ポケモン一覧のロードが完了しました。');
   return pokemonList;
 }
 

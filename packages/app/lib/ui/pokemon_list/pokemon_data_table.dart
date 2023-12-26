@@ -7,11 +7,13 @@ import '../../domain/ability.dart';
 import '../../domain/pokemon.dart';
 
 class PokemonDataTable extends ConsumerWidget {
-  const PokemonDataTable({super.key});
+  const PokemonDataTable({super.key, required this.pokedexList});
+
+  final List<int> pokedexList;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final asyncPokemonList = ref.watch(pokemonListProvider);
+    final asyncPokemonList = ref.watch(pokemonListProvider(pokedexList));
     return asyncPokemonList.when(
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (error, stackTrace) => Center(child: Text(error.toString())),

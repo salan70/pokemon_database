@@ -6,7 +6,7 @@ part of 'db_state.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$dbHash() => r'382a1227c529e02249f7f376d03653ae0ff14389';
+String _$dbHash() => r'4ce77f9cf368991a38d4101ba88c0c87047b836e';
 
 /// Copied from Dart SDK
 class _SystemHash {
