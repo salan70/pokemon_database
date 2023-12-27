@@ -20,7 +20,7 @@ class _TopPageState extends ConsumerState<TopPage> {
   void initState() {
     super.initState();
 
-    pokedexList = pokedexList1to50;
+    pokedexList = pokedexListTop150;
   }
 
   @override
@@ -30,18 +30,40 @@ class _TopPageState extends ConsumerState<TopPage> {
         appBar: AppBar(
           title: const Text('ポケモン'),
           actions: [
-            IconButton(
-              icon: const Icon(Icons.refresh),
+            TextButton(
+              child: const Text('TOP 50'),
               onPressed: () {
+                if (pokedexList == pokedexListTop50) {
+                  return;
+                }
                 setState(() {
-                  if (pokedexList.first == 1) {
-                    pokedexList = pokedexList51to100;
-                    return;
-                  }
-                  pokedexList = pokedexList1to50;
+                  pokedexList = pokedexListTop50;
                 });
               },
             ),
+            TextButton(
+              child: const Text('TOP 100'),
+              onPressed: () {
+                if (pokedexList == pokedexListTop100) {
+                  return;
+                }
+                setState(() {
+                  pokedexList = pokedexListTop100;
+                });
+              },
+            ),
+            TextButton(
+              child: const Text('TOP 150'),
+              onPressed: () {
+                if (pokedexList == pokedexListTop150) {
+                  return;
+                }
+                setState(() {
+                  pokedexList = pokedexListTop150;
+                });
+              },
+            ),
+            const Gap(8),
           ],
         ),
         body: Row(
