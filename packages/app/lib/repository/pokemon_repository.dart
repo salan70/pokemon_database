@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:model/model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../util/logger.dart';
 import 'db_state.dart';
 
 part 'pokemon_repository.g.dart';
@@ -30,7 +31,18 @@ class PokemonRepository {
     }
 
     /// PokemonScheme に変換して返す。
-    return pokemonMapList.map(PokemonScheme.fromJson).toList();
+    final pokemonSchemeList =
+        pokemonMapList.map(PokemonScheme.fromJson).toList();
+
+    /// pokedexList に格納されている順番に並び替える。
+    final sortedPokemonSchemeList = <PokemonScheme>[];
+    for (final pokedex in pokedexList) {
+      final pokemonScheme = pokemonSchemeList.firstWhere(
+        (element) => element.pokedex == pokedex,
+      );
+      sortedPokemonSchemeList.add(pokemonScheme);
+    }
+    return sortedPokemonSchemeList;
   }
 
   /// [pokedex] に合致するポケモンの [BaseStatsScheme] を取得する。

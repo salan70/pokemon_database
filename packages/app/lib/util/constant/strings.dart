@@ -1,2 +1,2 @@
 /// db ファイルを格納するディレクトリのパス。
-const dbDirectoryPath = 'assets/db/';
+const dbDirectoryPath = 'db/';
