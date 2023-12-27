@@ -1,3 +1,4 @@
+import 'package:cli/util/exception/api_exception.dart';
 import 'package:model/model.dart';
 
 import '../poke_api/poke_api_client.dart';
@@ -22,15 +23,19 @@ class PokemonService {
       // url から pokedex を取得する。
       final index = int.parse(url.split('/')[6]);
 
-      // 10000 以上は、特殊なポケモンなので除外する。
-      if (index >= 10000) {
-        print('index: $index は特殊なポケモンなので除外します。');
-        continue;
+      // `fetchPokemon` が失敗した場合は処理を止めてほしいので、ここでは catch しないでおく。
+      final pokemonJson = await pokeApiClient.fetchPokemon(index);
+
+      // ? 関数として抽出したいが、そうすると try-catch がうまく行かない。
+      late final String pokemonName;
+      try {
+        pokemonName = await pokeApiClient.fetchPokemonJapaneseName(index);
+      } on ApiException catch (_) {
+        print('日本語名を取得できなかったため、英語名を使用します。 index: $index');
+        pokemonName = pokemonJson['name'] as String;
       }
 
-      final pokemonJson = await pokeApiClient.fetchPokemon(index);
-      final pokemonJaName = await pokeApiClient.fetchPokemonJapaneseName(index);
-      _generateAndAddToList(pokemonJson, pokemonJaName);
+      _generateAndAddToList(pokemonJson, pokemonName);
 
       // 制限を避けるため、 0.5 秒待つ。
       await Future<void>.delayed(const Duration(milliseconds: 500));
@@ -72,10 +77,10 @@ class _Generator {
   final Map<String, dynamic> _pokemonJson;
 
   /// [_pokemonJson] から [PokemonScheme] を生成する。
-  PokemonScheme generatePokemonScheme(String pokemonJaName) {
+  PokemonScheme generatePokemonScheme(String pokemonName) {
     return PokemonScheme(
       pokedex: _pokemonJson['id'] as int,
-      name: pokemonJaName,
+      name: pokemonName,
       imageUrl: (_pokemonJson['sprites']
           as Map<String, dynamic>)['front_default'] as String?,
     );

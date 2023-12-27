@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cli/util/exception/api_exception.dart';
 import 'package:http/http.dart' as http;
 
 /// PokeAPI へのリクエストを行うクラス。
@@ -11,16 +12,19 @@ class PokeApiClient {
     final res = await http.get(Uri.parse(url));
     if (res.statusCode == 200) {
       return jsonDecode(res.body) as Map<String, dynamic>;
-    } else {
-      throw Exception(
-        'Failed to Load. url: $url, statusCode: ${res.statusCode}',
-      );
+    } else if (res.statusCode == 404) {
+      print('404: $url');
+      throw const ApiException(ApiExceptionCode.notFound);
     }
+    print('status code: ${res.statusCode}');
+    print('url: $url');
+    throw const ApiException(ApiExceptionCode.unknown);
   }
 
   /// 取得するポケモンの URL リストを取得する。
   Future<List<String>> fetchPokemonUrlList() async {
-    final json = await _getRequest('$_pokeApiRoute/pokemon?limit=2000&offset=0');
+    final json =
+        await _getRequest('$_pokeApiRoute/pokemon?limit=2000&offset=0');
     final results = json['results'] as List<dynamic>;
     return results.map((e) {
       final eMap = e as Map<String, dynamic>;
@@ -66,7 +70,8 @@ class PokeApiClient {
 
   /// 取得する「とくせい」の URL リストを取得する。
   Future<List<String>> fetchAbilityUrlList() async {
-    final json = await _getRequest('$_pokeApiRoute/ability?limit=2000&offset=0');
+    final json =
+        await _getRequest('$_pokeApiRoute/ability?limit=2000&offset=0');
     final results = json['results'] as List<dynamic>;
     return results.map((e) {
       final eMap = e as Map<String, dynamic>;
