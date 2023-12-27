@@ -2,7 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:model/model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../util/logger.dart';
 import 'db_state.dart';
 
 part 'pokemon_repository.g.dart';

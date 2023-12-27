@@ -12,20 +12,28 @@ class SelectedPokemonWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ListView(
-      children: const [
-        Align(
+      children: [
+        const Align(
           alignment: Alignment.centerLeft,
           child: Icon(Icons.star_rounded, color: Colors.red),
         ),
-        Gap(8),
-        _SelectedPokemonList(type: SelectedPokemonListType.red),
-        Gap(16),
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Icon(Icons.star_rounded, color: Colors.blue),
+        const Gap(8),
+        const _SelectedPokemonList(type: SelectedPokemonListType.red),
+        const Gap(16),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Icon(Icons.star_rounded, color: Colors.blue),
+            TextButton(
+              onPressed: ref
+                  .read(selectedPokemonNotifierProvider.notifier)
+                  .changeMyPartyToBlue,
+              child: const Text('My Party'),
+            ),
+          ],
         ),
-        Gap(8),
-        _SelectedPokemonList(type: SelectedPokemonListType.blue),
+        const Gap(8),
+        const _SelectedPokemonList(type: SelectedPokemonListType.blue),
       ],
     );
   }

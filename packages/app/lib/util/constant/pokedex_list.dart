@@ -1,3 +1,13 @@
+/// 自分のパーティのポケモンの図鑑番号のリスト。
+const pokedexListMyParty = [
+  991,
+  901,
+  1017,
+  149,
+  934,
+  892,
+];
+
 /// 2023-12-27 時点で、ランクバトル シングルで
 /// 使用率 TOP 50 までのポケモンの図鑑番号のリスト。
 final pokedexListTop50 = pokedexListTop150.take(50).toList();

@@ -1,3 +1,5 @@
+import 'package:app/application/pokemon_list_state.dart';
+import 'package:app/util/constant/pokedex_list.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../domain/pokemon.dart';
@@ -15,6 +17,14 @@ class SelectedPokemonNotifier extends _$SelectedPokemonNotifier {
       redPokemonList: [],
       bluePokemonList: [],
     );
+  }
+
+  /// [pokedexListMyParty] に合致するポケモンのリストを `state.bluePokemonList` に設定する。
+  Future<void> changeMyPartyToBlue() async {
+    final myParty =
+        await ref.read(pokemonListProvider(pokedexListMyParty).future);
+
+    state = state.copyWith(bluePokemonList: myParty);
   }
 
   /// state の値に応じて、[pokemon] を [type] のリストに追加または除外する。
