@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'application/pokemon_list_state.dart';
-import 'util/logger.dart';
+import 'ui/pokemon_list/top_page.dart';
 
 void main() async {
   await init();
@@ -19,18 +18,9 @@ class MainApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: TextButton(
-            onPressed: () async {
-              logger.i('Hello');
-              final pokemonList = await ref.read(pokemonListProvider.future);
-              logger.i(pokemonList);
-            },
-            child: const Text('Hello'),
-          ),
-        ),
-      ),
+      theme: ThemeData(fontFamily: 'LINESeedJP'),
+      debugShowCheckedModeBanner: false,
+      home: const TopPage(),
     );
   }
 }

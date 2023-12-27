@@ -168,14 +168,15 @@ class __$$BaseStatsImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$BaseStatsImpl implements _BaseStats {
+class _$BaseStatsImpl extends _BaseStats {
   const _$BaseStatsImpl(
       {required this.hp,
       required this.attack,
       required this.defense,
       required this.specialAttack,
       required this.specialDefense,
-      required this.speed});
+      required this.speed})
+      : super._();
 
   /// HP。
   @override
@@ -232,7 +233,7 @@ class _$BaseStatsImpl implements _BaseStats {
       __$$BaseStatsImplCopyWithImpl<_$BaseStatsImpl>(this, _$identity);
 }
 
-abstract class _BaseStats implements BaseStats {
+abstract class _BaseStats extends BaseStats {
   const factory _BaseStats(
       {required final int hp,
       required final int attack,
@@ -240,6 +241,7 @@ abstract class _BaseStats implements BaseStats {
       required final int specialAttack,
       required final int specialDefense,
       required final int speed}) = _$BaseStatsImpl;
+  const _BaseStats._() : super._();
 
   @override
 
