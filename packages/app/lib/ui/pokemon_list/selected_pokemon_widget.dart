@@ -32,15 +32,29 @@ class SelectedPokemonWidget extends ConsumerWidget {
 }
 
 /// 選択中のポケモンをリスト表示する Widget.
-class _SelectedPokemonList extends ConsumerWidget {
+class _SelectedPokemonList extends ConsumerStatefulWidget {
   const _SelectedPokemonList({required this.type});
 
+  /// リストの種類.
   final SelectedPokemonListType type;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<_SelectedPokemonList> createState() =>
+      _SelectedPokemonListState();
+}
+
+class _SelectedPokemonListState extends ConsumerState<_SelectedPokemonList> {
+  /// フォーカスされている `ListTile` の index.
+  ///
+  /// どの `ListTile` もフォーカスされていない場合は `null`.
+  int? _focusedIndex;
+
+  static const _tilePadding = EdgeInsets.symmetric(horizontal: 4);
+
+  @override
+  Widget build(BuildContext context) {
     final selectedPokemon = ref.watch(selectedPokemonNotifierProvider);
-    final pokemonList = type == SelectedPokemonListType.red
+    final pokemonList = widget.type == SelectedPokemonListType.red
         ? selectedPokemon.redPokemonList
         : selectedPokemon.bluePokemonList;
 
@@ -50,12 +64,13 @@ class _SelectedPokemonList extends ConsumerWidget {
       itemCount: SelectedPokemon.maxPokemonCount,
       itemBuilder: (context, index) {
         /// 並び替えで使用するための key.
-        final key = ValueKey('${type.label}_$index}');
+        final key = ValueKey('${widget.type.label}_$index}');
 
         // * ポケモンを未選択の場合
         if (index >= pokemonList.length) {
           return ListTile(
             key: key,
+            contentPadding: _tilePadding,
             title: const Text('-'),
           );
         }
@@ -64,45 +79,74 @@ class _SelectedPokemonList extends ConsumerWidget {
         final pokemon = pokemonList[index];
         return ListTile(
           key: key,
-          title: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          contentPadding: _tilePadding,
+          tileColor: _focusedIndex == index
+              ? widget.type.color.withOpacity(0.1)
+              : Theme.of(context).colorScheme.surface,
+          onTap: () {
+            setState(() {
+              // すでにフォーカスされている場合はフォーカスを解除する。
+              if (_focusedIndex == index) {
+                _focusedIndex = null;
+                return;
+              }
+
+              _focusedIndex = index;
+            });
+          },
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    pokemon.name,
-                    style: Theme.of(context).textTheme.labelMedium!.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                  Row(
+                    children: [
+                      Text(
+                        pokemon.name,
+                        style:
+                            Theme.of(context).textTheme.labelMedium!.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                      ),
+                      const Gap(4),
+                      Text(
+                        '| ${pokemon.typeTextSingleLine} |',
+                        style: Theme.of(context).textTheme.labelSmall,
+                      ),
+                      const Gap(4),
+                      Text(
+                        pokemon.abilityTextSingleLine,
+                        style: Theme.of(context).textTheme.labelSmall,
+                      ),
+                    ],
                   ),
-                  const Gap(4),
                   Text(
-                    '| ${pokemon.typeTextSingleLine} |',
-                    style: Theme.of(context).textTheme.labelSmall,
-                  ),
-                  const Gap(4),
-                  Text(
-                    pokemon.abilityTextSingleLine,
-                    style: Theme.of(context).textTheme.labelSmall,
+                    pokemon.baseStats.allJoinedText,
+                    style: Theme.of(context).textTheme.labelMedium,
                   ),
                 ],
               ),
-              Text(
-                pokemon.baseStats.allJoinedText,
-                style: Theme.of(context).textTheme.labelMedium,
+              Padding(
+                padding: const EdgeInsets.only(right: 48),
+                child: IconButton(
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(
+                    minWidth: 32,
+                    minHeight: 32,
+                  ),
+                  icon: Icon(
+                    Icons.remove_circle_rounded,
+                    color: widget.type.color,
+                  ),
+                  onPressed: () {
+                    ref
+                        .read(selectedPokemonNotifierProvider.notifier)
+                        .removeFromPokemonList(pokemon, widget.type);
+                  },
+                ),
               ),
             ],
-          ),
-          trailing: IconButton(
-            icon: Icon(
-              Icons.remove_circle_rounded,
-              color: type.color,
-            ),
-            onPressed: () {
-              ref
-                  .read(selectedPokemonNotifierProvider.notifier)
-                  .removeFromPokemonList(pokemon, type);
-            },
           ),
         );
       },
@@ -115,7 +159,7 @@ class _SelectedPokemonList extends ConsumerWidget {
 
         ref
             .read(selectedPokemonNotifierProvider.notifier)
-            .reorderPokemonList(type, oldIndex, newIndex);
+            .reorderPokemonList(widget.type, oldIndex, newIndex);
       },
     );
   }
