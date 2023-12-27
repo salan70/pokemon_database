@@ -1,0 +1,4 @@
+enum SelectedPokemonListType {
+  red,
+  blue;
+}

@@ -27,11 +27,20 @@ class Pokemon with _$Pokemon {
     /// 所持しうる「とくせい」リスト。
     required List<Ability> abilityList,
 
-    // `Pokemon` 一覧表示時には不要 かつ 取得が重いのでコメントアウトしておく。
-    /// 覚える「わざ」 id のリスト。
-    // required List<int> moveIdList,
-
     /// 種族値。
     required BaseStats baseStats,
   }) = _Pokemon;
+  const Pokemon._();
+
+  /// [typeList] を 1行のテキストに変換する。
+  String get typeTextSingleLine => typeList.map((e) => e.jaLabel).join(' ');
+
+  /// [typeList] を複数行のテキストに変換する。
+  String get typeTextMultiLine => typeList.map((e) => e.jaLabel).join('\n');
+
+  /// [abilityList] を 1行のテキストに変換する。
+  String get abilityTextSingleLine => abilityList.map((e) => e.name).join(' ');
+
+  /// [abilityList] を複数行のテキストに変換する。
+  String get abilityTextMultiLine => abilityList.map((e) => e.name).join('\n');
 }

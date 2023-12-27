@@ -42,4 +42,8 @@ class BaseStats with _$BaseStats {
   /// 合計値。
   int get total =>
       hp + attack + defense + specialAttack + specialDefense + speed;
+
+  /// [total] を含めた、各種族値を `-` 区切りで連結した文字列を返す。
+  String get allJoinedText => '$hp - $attack - $defense - '
+      '$specialAttack - $specialDefense - $speed ($total)';
 }

@@ -31,10 +31,8 @@ mixin _$Pokemon {
   List<PokeType> get typeList => throw _privateConstructorUsedError;
 
   /// 所持しうる「とくせい」リスト。
-  List<Ability> get abilityList =>
-      throw _privateConstructorUsedError; // `Pokemon` 一覧表示時には不要 かつ 取得が重いのでコメントアウトしておく。
-  /// 覚える「わざ」 id のリスト。
-// required List<int> moveIdList,
+  List<Ability> get abilityList => throw _privateConstructorUsedError;
+
   /// 種族値。
   BaseStats get baseStats => throw _privateConstructorUsedError;
 
@@ -183,7 +181,7 @@ class __$$PokemonImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$PokemonImpl implements _Pokemon {
+class _$PokemonImpl extends _Pokemon {
   const _$PokemonImpl(
       {required this.pokedex,
       required this.name,
@@ -192,7 +190,8 @@ class _$PokemonImpl implements _Pokemon {
       required final List<Ability> abilityList,
       required this.baseStats})
       : _typeList = typeList,
-        _abilityList = abilityList;
+        _abilityList = abilityList,
+        super._();
 
   /// 図鑑番号。
   @override
@@ -230,9 +229,6 @@ class _$PokemonImpl implements _Pokemon {
     return EqualUnmodifiableListView(_abilityList);
   }
 
-// `Pokemon` 一覧表示時には不要 かつ 取得が重いのでコメントアウトしておく。
-  /// 覚える「わざ」 id のリスト。
-// required List<int> moveIdList,
   /// 種族値。
   @override
   final BaseStats baseStats;
@@ -275,7 +271,7 @@ class _$PokemonImpl implements _Pokemon {
       __$$PokemonImplCopyWithImpl<_$PokemonImpl>(this, _$identity);
 }
 
-abstract class _Pokemon implements Pokemon {
+abstract class _Pokemon extends Pokemon {
   const factory _Pokemon(
       {required final int pokedex,
       required final String name,
@@ -283,6 +279,7 @@ abstract class _Pokemon implements Pokemon {
       required final List<PokeType> typeList,
       required final List<Ability> abilityList,
       required final BaseStats baseStats}) = _$PokemonImpl;
+  const _Pokemon._() : super._();
 
   @override
 
@@ -306,9 +303,8 @@ abstract class _Pokemon implements Pokemon {
 
   /// 所持しうる「とくせい」リスト。
   List<Ability> get abilityList;
-  @override // `Pokemon` 一覧表示時には不要 かつ 取得が重いのでコメントアウトしておく。
-  /// 覚える「わざ」 id のリスト。
-// required List<int> moveIdList,
+  @override
+
   /// 種族値。
   BaseStats get baseStats;
   @override

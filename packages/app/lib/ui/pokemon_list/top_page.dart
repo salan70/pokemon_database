@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 
 import 'pokemon_data_table.dart';
+import 'selected_pokemon_widget.dart';
 
 class TopPage extends ConsumerStatefulWidget {
   const TopPage({super.key});
@@ -26,7 +27,7 @@ class _TopPageState extends ConsumerState<TopPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('ポケモン一覧'),
+        title: const Text('ポケモン'),
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
@@ -46,8 +47,8 @@ class _TopPageState extends ConsumerState<TopPage> {
         children: [
           const Gap(8),
           Expanded(child: PokemonDataTable(pokedexList: pokedexList)),
-          const Gap(8),
-          const Expanded(child: Text('textやで')),
+          const Gap(40),
+          const Expanded(child: SelectedPokemonWidget()),
           const Gap(8),
         ],
       ),

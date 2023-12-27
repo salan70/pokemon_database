@@ -1,10 +1,11 @@
+import 'package:app/application/selected_pokemon_notifier.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:model/model.dart';
 
 import '../../application/pokemon_list_state.dart';
 import '../../domain/pokemon.dart';
+import '../../util/constant/selected_pokemon_list_type.dart';
 
 class PokemonDataTable extends ConsumerWidget {
   const PokemonDataTable({super.key, required this.pokedexList});
@@ -13,6 +14,9 @@ class PokemonDataTable extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // 選択状況に応じてリビルドさせたいため、 watch する。
+    ref.watch(selectedPokemonNotifierProvider);
+    
     final asyncPokemonList = ref.watch(pokemonListProvider(pokedexList));
     return asyncPokemonList.when(
       loading: () => const Center(child: CircularProgressIndicator()),
@@ -54,10 +58,18 @@ class PokemonDataTable extends ConsumerWidget {
               label: Text('すばやさ', textAlign: TextAlign.center),
               size: ColumnSize.S,
             ),
+            DataColumn2(
+              label: Text(''),
+              size: ColumnSize.S,
+            ),
+            DataColumn2(
+              label: Text(''),
+              size: ColumnSize.S,
+            ),
           ],
           rows: <DataRow>[
             for (final pokemon in pokemonList)
-              _PokemonDataRow(pokemon: pokemon),
+              _PokemonDataRow(pokemon: pokemon, ref: ref),
           ],
         );
       },
@@ -65,21 +77,24 @@ class PokemonDataTable extends ConsumerWidget {
   }
 }
 
-/// [Pokemon] のデータを表示する [DataRow]。
+/// [Pokemon] のデータを表示する [DataRow].
 class _PokemonDataRow extends DataRow {
   _PokemonDataRow({
     required this.pokemon,
-  }) : super(cells: _buildCells(pokemon));
+    required this.ref,
+  }) : super(cells: _buildCells(pokemon, ref));
 
   final Pokemon pokemon;
+  final WidgetRef ref;
 
   /// [pokemon] から [DataCell] のリストを生成する。
-  static List<DataCell> _buildCells(Pokemon pokemon) {
-    final typeText = _buildTypeText(pokemon.typeList);
+  static List<DataCell> _buildCells(Pokemon pokemon, WidgetRef ref) {
+    final selectedPokemon = ref.read(selectedPokemonNotifierProvider);
+    final notifier = ref.read(selectedPokemonNotifierProvider.notifier);
 
     return <DataCell>[
       DataCell(Text(pokemon.name)),
-      DataCell(Text(typeText)),
+      DataCell(Text(pokemon.typeTextMultiLine)),
       DataCell(Text('${pokemon.baseStats.total}')),
       DataCell(Text('${pokemon.baseStats.hp}')),
       DataCell(Text('${pokemon.baseStats.attack}')),
@@ -87,12 +102,32 @@ class _PokemonDataRow extends DataRow {
       DataCell(Text('${pokemon.baseStats.specialAttack}')),
       DataCell(Text('${pokemon.baseStats.specialDefense}')),
       DataCell(Text('${pokemon.baseStats.speed}')),
+      DataCell(
+        IconButton(
+          onPressed: () {
+            notifier.togglePokemonList(pokemon, SelectedPokemonListType.red);
+          },
+          icon: Icon(
+            selectedPokemon.redPokemonList.contains(pokemon)
+                ? Icons.star_rounded
+                : Icons.star_outline_rounded,
+            color: Colors.red,
+          ),
+        ),
+      ),
+      DataCell(
+        IconButton(
+          onPressed: () {
+            notifier.togglePokemonList(pokemon, SelectedPokemonListType.blue);
+          },
+          icon: Icon(
+            selectedPokemon.bluePokemonList.contains(pokemon)
+                ? Icons.star_rounded
+                : Icons.star_outline_rounded,
+            color: Colors.blue,
+          ),
+        ),
+      ),
     ];
-  }
-
-  /// [typeList] から 「タイプ」として表示するテキストを生成する。
-  static String _buildTypeText(List<PokeType> typeList) {
-    final typeLabelList = typeList.map((e) => e.jaLabel).toList();
-    return typeLabelList.join('\n');
   }
 }
