@@ -2,10 +2,18 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "app",
+      "name": "app-debug",
       "cwd": "packages/app",
       "request": "launch",
-      "type": "dart"
+      "type": "dart",
+      "args": ["--debug", "chrome", "--web-renderer", "html"]
+    },
+    {
+      "name": "app-release",
+      "cwd": "packages/app",
+      "request": "launch",
+      "type": "dart",
+      "args": ["--release", "chrome", "--web-renderer", "html"]
     },
     {
       "name": "cli",
