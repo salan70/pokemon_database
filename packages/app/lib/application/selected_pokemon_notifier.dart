@@ -27,7 +27,7 @@ class SelectedPokemonNotifier extends _$SelectedPokemonNotifier {
           return;
         }
 
-        addToPokemonList(pokemon, type);
+        _addToRedPokemonList(pokemon);
         return;
 
       // * blueList
@@ -37,37 +37,33 @@ class SelectedPokemonNotifier extends _$SelectedPokemonNotifier {
           return;
         }
 
-        addToPokemonList(pokemon, type);
+        _addToBluePokemonList(pokemon);
         return;
     }
   }
 
-  /// [pokemon] を [type] のリストに追加する。
-  void addToPokemonList(Pokemon pokemon, SelectedPokemonListType type) {
-    final targetList = type == SelectedPokemonListType.red
-        ? state.redPokemonList
-        : state.bluePokemonList;
-
-    // すでに追加済みの場合は何もしない。
-    if (targetList.contains(pokemon)) {
+  /// [pokemon] を state.redPokemonList に追加する。
+  void _addToRedPokemonList(Pokemon pokemon) {
+    // これ以上追加できない場合は何もしない。
+    if (state.redPokemonList.length >= SelectedPokemon.maxPokemonCount) {
       return;
     }
 
-    switch (type) {
-      // * redList
-      case SelectedPokemonListType.red:
-        state = state.copyWith(
-          redPokemonList: [...state.redPokemonList, pokemon],
-        );
-        return;
+    state = state.copyWith(
+      redPokemonList: [...state.redPokemonList, pokemon],
+    );
+  }
 
-      // * blueList
-      case SelectedPokemonListType.blue:
-        state = state.copyWith(
-          bluePokemonList: [...state.bluePokemonList, pokemon],
-        );
-        return;
+  /// [pokemon] を state.bluePokemonList に追加する。
+  void _addToBluePokemonList(Pokemon pokemon) {
+    // これ以上追加できない場合は何もしない。
+    if (state.bluePokemonList.length >= SelectedPokemon.maxPokemonCount) {
+      return;
     }
+
+    state = state.copyWith(
+      bluePokemonList: [...state.bluePokemonList, pokemon],
+    );
   }
 
   /// [pokemon] を [type] のリストから除外する。
@@ -89,5 +85,60 @@ class SelectedPokemonNotifier extends _$SelectedPokemonNotifier {
         );
         return;
     }
+  }
+
+  /// [type] に応じて、リストを並び替える。
+  void reorderPokemonList(
+    SelectedPokemonListType type,
+    int oldIndex,
+    int newIndex,
+  ) {
+    switch (type) {
+      // * redList
+      case SelectedPokemonListType.red:
+        _reorderRedPokemonList(oldIndex, newIndex);
+        return;
+
+      // * blueList
+      case SelectedPokemonListType.blue:
+        _reorderBluePokemonList(oldIndex, newIndex);
+        return;
+    }
+  }
+
+  /// `state.redPokemonList` を並び替える。
+  void _reorderRedPokemonList(int oldIndex, int newIndex) {
+    // 変更可能なリストのコピーを作成する。
+    final mutableList = List<Pokemon>.from(state.redPokemonList);
+
+    // 要素を並び替える。
+    final pokemon = mutableList.removeAt(oldIndex);
+    mutableList.insert(
+      newIndex > oldIndex ? newIndex - 1 : newIndex,
+      pokemon,
+    );
+
+    // 状態を更新する。
+    state = state.copyWith(
+      redPokemonList: mutableList,
+    );
+  }
+
+  /// `state.bluePokemonList` を並び替える。
+  void _reorderBluePokemonList(int oldIndex, int newIndex) {
+    // 変更可能なリストのコピーを作成する。
+    final mutableList = List<Pokemon>.from(state.bluePokemonList);
+
+    // 要素を並び替える。
+    final pokemon = mutableList.removeAt(oldIndex);
+    mutableList.insert(
+      newIndex > oldIndex ? newIndex - 1 : newIndex,
+      pokemon,
+    );
+
+    // 状態を更新する。
+    state = state.copyWith(
+      bluePokemonList: mutableList,
+    );
   }
 }

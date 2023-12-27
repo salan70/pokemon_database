@@ -25,32 +25,34 @@ class _TopPageState extends ConsumerState<TopPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('ポケモン'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: () {
-              setState(() {
-                if (pokedexList.first == 1) {
-                  pokedexList = pokedexList51to100;
-                  return;
-                }
-                pokedexList = pokedexList1to50;
-              });
-            },
-          ),
-        ],
-      ),
-      body: Row(
-        children: [
-          const Gap(8),
-          Expanded(child: PokemonDataTable(pokedexList: pokedexList)),
-          const Gap(40),
-          const Expanded(child: SelectedPokemonWidget()),
-          const Gap(8),
-        ],
+    return SelectionArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('ポケモン'),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.refresh),
+              onPressed: () {
+                setState(() {
+                  if (pokedexList.first == 1) {
+                    pokedexList = pokedexList51to100;
+                    return;
+                  }
+                  pokedexList = pokedexList1to50;
+                });
+              },
+            ),
+          ],
+        ),
+        body: Row(
+          children: [
+            const Gap(8),
+            Expanded(child: PokemonDataTable(pokedexList: pokedexList)),
+            const Gap(40),
+            const Expanded(child: SelectedPokemonWidget()),
+            const Gap(8),
+          ],
+        ),
       ),
     );
   }

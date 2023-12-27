@@ -44,17 +44,26 @@ class _SelectedPokemonList extends ConsumerWidget {
         ? selectedPokemon.redPokemonList
         : selectedPokemon.bluePokemonList;
 
-    return ListView.builder(
+    return ReorderableListView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: SelectedPokemon.maxPokemonCount,
       itemBuilder: (context, index) {
+        /// 並び替えで使用するための key.
+        final key = ValueKey('${type.label}_$index}');
+
+        // * ポケモンを未選択の場合
         if (index >= pokemonList.length) {
-          return const ListTile(trailing: Text('-'));
+          return ListTile(
+            key: key,
+            title: const Text('-'),
+          );
         }
 
+        // * ポケモンを選択済みの場合
         final pokemon = pokemonList[index];
         return ListTile(
+          key: key,
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -87,9 +96,7 @@ class _SelectedPokemonList extends ConsumerWidget {
           trailing: IconButton(
             icon: Icon(
               Icons.remove_circle_rounded,
-              color: type == SelectedPokemonListType.red
-                  ? Colors.red
-                  : Colors.blue,
+              color: type.color,
             ),
             onPressed: () {
               ref
@@ -98,6 +105,17 @@ class _SelectedPokemonList extends ConsumerWidget {
             },
           ),
         );
+      },
+      onReorder: (int oldIndex, int newIndex) {
+        // 未選択の ListTile を並び替えようとした場合は何もしない。
+        // UI 上では、並び替えの演出後、元の位置に戻る。
+        if (oldIndex >= pokemonList.length || newIndex >= pokemonList.length) {
+          return;
+        }
+
+        ref
+            .read(selectedPokemonNotifierProvider.notifier)
+            .reorderPokemonList(type, oldIndex, newIndex);
       },
     );
   }
