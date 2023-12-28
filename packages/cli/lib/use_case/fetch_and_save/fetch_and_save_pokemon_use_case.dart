@@ -1,10 +1,11 @@
 import 'package:cli/util/exception/api_exception.dart';
 import 'package:model/model.dart';
 
-import '../poke_api/poke_api_client.dart';
-import '../sqflite/sqflite_command.dart';
+import '../../poke_api/poke_api_client.dart';
+import '../../sqflite/sqflite_command.dart';
 
-class PokemonService {
+/// 「ポケモン」データを PokeAPI から取得し、 DB に保存する。
+class FetchAndSavePokemonUseCase {
   // PokeAPI で取得したデータを DB に保存するために一時的に保持するリスト。
   // 大量のデータを保持する恐れがある。
   final List<PokemonScheme> _pokemonList = [];
@@ -14,7 +15,7 @@ class PokemonService {
   final List<PokemonTypeScheme> _pokemonTypeList = [];
 
   /// 全てのポケモンのデータを取得し、 DB に保存する。
-  Future<void> fetchAndSaveAllPokemonData() async {
+  Future<void> execute() async {
     final pokeApiClient = PokeApiClient();
 
     // * PokeAPI からデータを取得し、メンバ変数のリストに追加する。
