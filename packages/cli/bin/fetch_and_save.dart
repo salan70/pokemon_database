@@ -3,6 +3,7 @@ import 'package:cli/use_case/fetch_and_save/fetch_and_save_move_use_case.dart';
 import 'package:cli/use_case/fetch_and_save/fetch_and_save_pokemon_use_case.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
+/// PokeAPI から「ポケモン」「わざ」「とくせい」のデータを取得し DB に保存する。
 void main() async {
   const logPrefix = '[fetch_and_save]';
   print('$logPrefix 処理を開始します🚀🚀🚀🚀');
