@@ -2,20 +2,20 @@
 
 ## 本パッケージについて
 
-ポケモンのデータを Poke API から取得し、 DB に保存する処理を格納しています。
+「Poke API からのデータ取得」や「DB の保存、更新」を CLI で行う処理を格納しています。
 
 ## 実行方法
 
 本パッケージのルートで、以下いずれかのコマンドを叩くと実行されます。
 
 ```sh
-fvm dart run bin/execute.dart
+fvm dart run bin/〇〇（ファイル名）
 
-# Makefile で上記コマンドを実行するよう設定しています。
-make execute
+# Makefile で設定しています。
+make exe_〇〇
 ```
 
-実行が完了したら、以下に db ファイルが出力されます。  
+保存や更新対象の db ファイルは以下に格納しています。
 `packages/assets/db`
 
 ## 注意事項
@@ -32,4 +32,4 @@ Dart SDK version: 3.2.3 (stable) (Tue Dec 5 17:58:33 2023 +0000) on "macos_x64"
 
 ### 処理時間について
 
-処理の開始から終了まで 2, 3時間程度かかります。
+`fetch_and_save.dart`は、処理の開始から終了まで 2, 3時間程度かかります。
