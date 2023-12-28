@@ -1,13 +1,14 @@
 import 'package:model/model.dart';
 
-import '../poke_api/poke_api_client.dart';
-import '../sqflite/sqflite_command.dart';
+import '../../poke_api/poke_api_client.dart';
+import '../../sqflite/sqflite_command.dart';
 
-class AbilityService {
+/// 「とくせい」データを PokeAPI から取得し、 DB に保存する。
+class FetchAndSaveAbilityUseCase {
   final List<AbilityScheme> _abilityList = [];
 
   /// 全ての ability のデータを取得し DB に保存する。
-  Future<void> fetchAndSaveAllAbilityData() async {
+  Future<void> execute() async {
     final pokeApiClient = PokeApiClient();
 
     // * PokeAPI からデータを取得し _abilityList に追加する。
@@ -29,7 +30,7 @@ class AbilityService {
       // 制限を避けるため 0.5 秒待つ。
       await Future<void>.delayed(const Duration(milliseconds: 500));
 
-      // 厳密にいうと index は取得件数じゃないことに注意。 
+      // 厳密にいうと index は取得件数じゃないことに注意。
       print('$index / ${abilityUrlList.length} 個目のとくせいを取得しました。');
     }
 

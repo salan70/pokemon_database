@@ -53,4 +53,16 @@ class SqfliteCommand {
 
     await db.close();
   }
+
+  /// [pokemonMap] をもとに、[PokemonScheme.name] を更新する。
+  /// 
+  /// [pokemonMap] は [PokemonScheme.pokedex] をキー、
+  /// [PokemonScheme.name] をバリューとする Map を想定している。
+  Future<void> updatePokemonNames(Map<int, String> pokemonMap) async {
+    final db = await databaseFactoryFfi.openDatabase(_dbPath);
+
+    await PokemonSqfliteManager(db).updatePokemonNames(pokemonMap);
+
+    await db.close();
+  }
 }

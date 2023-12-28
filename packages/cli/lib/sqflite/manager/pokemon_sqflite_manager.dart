@@ -43,4 +43,17 @@ class PokemonSqfliteManager {
       );
     }
   }
+
+  /// [pokemonMap] をもとに、[PokemonScheme.name] を更新する。
+  /// 
+  /// [pokemonMap] は [PokemonScheme.pokedex] をキー、
+  /// [PokemonScheme.name] をバリューとする Map を想定している。
+  Future<void> updatePokemonNames(Map<int, String> pokemonMap) async {
+    for (final entry in pokemonMap.entries) {
+      await _db.execute(
+        'UPDATE $_tableName SET $columnName = ? WHERE $columnPokedex = ?',
+        [entry.value, entry.key],
+      );
+    }
+  }
 }

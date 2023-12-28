@@ -1,13 +1,14 @@
 import 'package:model/model.dart';
 
-import '../poke_api/poke_api_client.dart';
-import '../sqflite/sqflite_command.dart';
+import '../../poke_api/poke_api_client.dart';
+import '../../sqflite/sqflite_command.dart';
 
-class MoveService {
+/// 「わざ」データを PokeAPI から取得し、 DB に保存する。
+class FetchAndSaveMoveUseCase {
   final _moveList = <MoveScheme>[];
 
   /// 全ての move のデータを取得し、 DB に保存する。
-  Future<void> fetchAndSaveAllMoveData() async {
+  Future<void> execute() async {
     final pokeApiClient = PokeApiClient();
 
     // * PokeAPI からデータを取得し、_moveList に追加する。

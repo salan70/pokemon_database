@@ -28,6 +28,10 @@ class PokemonDataTable extends ConsumerWidget {
           horizontalMargin: 2,
           columnSpacing: 4,
           columns: const <DataColumn>[
+            DataColumn2(
+              label: Text('No.', textAlign: TextAlign.center),
+              size: ColumnSize.S,
+            ),
             DataColumn2(label: Text('名前', textAlign: TextAlign.center)),
             DataColumn2(label: Text('タイプ', textAlign: TextAlign.center)),
             DataColumn2(
@@ -93,6 +97,7 @@ class _PokemonDataRow extends DataRow {
     final notifier = ref.read(selectedPokemonNotifierProvider.notifier);
 
     return <DataCell>[
+      DataCell(Text('${pokemon.pokedex}')),
       DataCell(Text(pokemon.name)),
       DataCell(Text(pokemon.typeTextMultiLine)),
       DataCell(Text('${pokemon.baseStats.total}')),
