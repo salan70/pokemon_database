@@ -13,14 +13,21 @@ part 'db_state.g.dart';
 Future<Database> db(DbRef ref, String dbName) async {
   logger.i('$dbName のロードを開始します。');
 
-  final path = join(dbDirectoryPath + dbName);
-  final loadedDb = await rootBundle.load(path);
-  final dbBytes = loadedDb.buffer.asUint8List();
-  await databaseFactoryFfiWeb.writeDatabaseBytes(
-    path,
-    dbBytes,
-  );
-  final db = await databaseFactoryFfiWeb.openDatabase(path);
+  final assetsDbPath = join(dbDirectoryPath + dbName);
+
+  // `dbPath` に DB が存在しない場合は、作成する。
+  final dbPath = await databaseFactoryFfiWeb.getDatabasesPath();
+  final isExistsDb = await databaseFactoryFfiWeb.databaseExists(dbPath);
+  if (!isExistsDb) {
+    logger.i('$dbName が存在しないため、作成します。');
+    final loadedDb = await rootBundle.load(assetsDbPath);
+    final dbBytes = loadedDb.buffer.asUint8List();
+    await databaseFactoryFfiWeb.writeDatabaseBytes(
+      dbPath,
+      dbBytes,
+    );
+  }
+  final db = await databaseFactoryFfiWeb.openDatabase(assetsDbPath);
 
   ref.onDispose(() async {
     logger.i('dispose されたため $dbName をクローズします。');
