@@ -1,4 +1,5 @@
 import 'package:app/util/constant/selected_pokemon_list_type.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
@@ -58,6 +59,7 @@ class _SelectedPokemonListState extends ConsumerState<_SelectedPokemonList> {
   int? _focusedIndex;
 
   static const _tilePadding = EdgeInsets.symmetric(horizontal: 4);
+  static const _tileHeight = 36.0;
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +81,10 @@ class _SelectedPokemonListState extends ConsumerState<_SelectedPokemonList> {
           return ListTile(
             key: key,
             contentPadding: _tilePadding,
-            title: const Text('-'),
+            title: const SizedBox(
+              height: _tileHeight,
+              child: Text('-'),
+            ),
           );
         }
 
@@ -102,59 +107,76 @@ class _SelectedPokemonListState extends ConsumerState<_SelectedPokemonList> {
               _focusedIndex = index;
             });
           },
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
+          title: SizedBox(
+            height: _tileHeight,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CachedNetworkImage(
+                  // height: 32,
+                  // width: 32,
+                  imageUrl: pokemon.imageUrl ?? '',
+                  placeholder: (context, url) => const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                ),
+                const Gap(4),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        pokemon.name,
-                        style:
-                            Theme.of(context).textTheme.labelMedium!.copyWith(
+                      Row(
+                        children: [
+                          Text(
+                            pokemon.name,
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelMedium!
+                                .copyWith(
                                   fontWeight: FontWeight.bold,
                                 ),
+                          ),
+                          const Gap(4),
+                          Text(
+                            '| ${pokemon.typeTextSingleLine} |',
+                            style: Theme.of(context).textTheme.labelSmall,
+                          ),
+                          const Gap(4),
+                          Text(
+                            pokemon.abilityTextSingleLine,
+                            style: Theme.of(context).textTheme.labelSmall,
+                          ),
+                        ],
                       ),
-                      const Gap(4),
                       Text(
-                        '| ${pokemon.typeTextSingleLine} |',
-                        style: Theme.of(context).textTheme.labelSmall,
-                      ),
-                      const Gap(4),
-                      Text(
-                        pokemon.abilityTextSingleLine,
-                        style: Theme.of(context).textTheme.labelSmall,
+                        pokemon.baseStats.allJoinedText,
+                        style: Theme.of(context).textTheme.labelMedium,
                       ),
                     ],
                   ),
-                  Text(
-                    pokemon.baseStats.allJoinedText,
-                    style: Theme.of(context).textTheme.labelMedium,
-                  ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 48),
-                child: IconButton(
-                  padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(
-                    minWidth: 32,
-                    minHeight: 32,
-                  ),
-                  icon: Icon(
-                    Icons.remove_circle_rounded,
-                    color: widget.type.color,
-                  ),
-                  onPressed: () {
-                    ref
-                        .read(selectedPokemonNotifierProvider.notifier)
-                        .removeFromPokemonList(pokemon, widget.type);
-                  },
                 ),
-              ),
-            ],
+                Padding(
+                  padding: const EdgeInsets.only(right: 48),
+                  child: IconButton(
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(
+                      minWidth: 32,
+                      minHeight: 32,
+                    ),
+                    icon: Icon(
+                      Icons.remove_circle_rounded,
+                      color: widget.type.color,
+                    ),
+                    onPressed: () {
+                      ref
+                          .read(selectedPokemonNotifierProvider.notifier)
+                          .removeFromPokemonList(pokemon, widget.type);
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       },

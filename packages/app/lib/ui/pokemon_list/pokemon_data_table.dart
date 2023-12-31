@@ -1,4 +1,5 @@
 import 'package:app/application/selected_pokemon_notifier.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,7 +17,7 @@ class PokemonDataTable extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // 選択状況に応じてリビルドさせたいため、 watch する。
     ref.watch(selectedPokemonNotifierProvider);
-    
+
     final asyncPokemonList = ref.watch(pokemonListProvider(pokedexList));
     return asyncPokemonList.when(
       loading: () => const Center(child: CircularProgressIndicator()),
@@ -29,7 +30,7 @@ class PokemonDataTable extends ConsumerWidget {
           columnSpacing: 4,
           columns: const <DataColumn>[
             DataColumn2(
-              label: Text('No.', textAlign: TextAlign.center),
+              label: Text('', textAlign: TextAlign.center),
               size: ColumnSize.S,
             ),
             DataColumn2(label: Text('名前', textAlign: TextAlign.center)),
@@ -97,7 +98,15 @@ class _PokemonDataRow extends DataRow {
     final notifier = ref.read(selectedPokemonNotifierProvider.notifier);
 
     return <DataCell>[
-      DataCell(Text('${pokemon.pokedex}')),
+      DataCell(
+        CachedNetworkImage(
+          imageUrl: pokemon.imageUrl ?? '',
+          placeholder: (context, url) => const Center(
+            child: CircularProgressIndicator(),
+          ),
+          errorWidget: (context, url, error) => const Icon(Icons.error),
+        ),
+      ),
       DataCell(Text(pokemon.name)),
       DataCell(Text(pokemon.typeTextMultiLine)),
       DataCell(Text('${pokemon.baseStats.total}')),
